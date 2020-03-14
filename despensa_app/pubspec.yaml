@@ -23,6 +23,8 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
+  curved_navigation_bar: ^0.3.2 #latest version
+  kf_drawer: ^1.1.2
 
 dev_dependencies:
   flutter_test:
@@ -70,3 +72,49 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+  fonts:
+    - family: Gilroy-ExtraBold
+      fonts:
+        - asset: fonts/Gilroy-ExtraBold.otf
+    - family: Gilroy-Light
+      fonts:
+        - asset: fonts/Gilroy-Light.otf
+    - family: Poppins-Black
+      fonts:
+        - asset: fonts/Poppins-Black.otf
+    - family: Poppins-BlackItalic
+      fonts:
+        - asset: fonts/Poppins-BlackItalic.otf
+    - family: Poppins-Bold
+      fonts:
+        - asset: fonts/Poppins-Bold.otf
+    - family: Poppins-BoldItalic
+      fonts:
+        - asset: fonts/Poppins-BoldItalic.otf
+    - family: Poppins-ExtraBold
+      fonts:
+        - asset: fonts/Poppins-ExtraBold.otf
+    - family: Poppins-ExtraBoldItalic
+      fonts:
+        - asset: fonts/Poppins-ExtraBoldItalic.otf
+    - family: Poppins-ExtraLight
+      fonts:
+        - asset: fonts/Poppins-ExtraLight.otf
+    - family: Poppins-Italic
+      fonts:
+        - asset: fonts/Poppins-Italic.otf
+    - family: Poppins-Light
+      fonts:
+        - asset: fonts/Poppins-Light.otf
+    - family: Poppins-Medium
+      fonts:
+        - asset: fonts/Poppins-Medium.ttf
+    - family: Poppins-SemiBold
+      fonts:
+        - asset: fonts/Poppins-Semibold.ttf
+    - family: Poppins-Thin
+      fonts:
+        - asset: fonts/Poppins-Thin.ttf
+  assets:
+    - assets/images/logo.png
+    - assets/images/Branding.png
