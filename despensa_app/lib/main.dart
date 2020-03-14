@@ -1,6 +1,18 @@
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:despensaapp/widgets/gradient_back.dart';
+import 'package:kf_drawer/kf_drawer.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyApp());
+import 'screens/auth_page.dart';
+import 'screens/calendar_page.dart';
+import 'screens/main_page.dart';
+import 'utils/class_builder.dart';
+
+void main() {
+  ClassBuilder.registerClasses();
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -19,7 +31,8 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: Colors.blue,
+        primaryColor: Color(0xFFC42036),
+        primaryColorDark: Color(0xFF2E3748)
       ),
       home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
@@ -44,8 +57,75 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   int _counter = 0;
+  KFDrawerController _drawerController;
+
+  @override
+  void initState() {
+    super.initState();
+    _drawerController = KFDrawerController(
+      initialPage: ClassBuilder.fromString('MainPage'),
+      items: [
+        KFDrawerItem.initWithPage(
+          text: Text('Dashboard',
+              style: TextStyle(
+                fontSize: 15.0,
+                fontFamily: "Poppins-Regular",
+                color: Colors.white,
+              )),
+          icon: Icon(Icons.dashboard, size: 20, color: Colors.white),
+          page: MainPage(),
+        ),
+        KFDrawerItem.initWithPage(
+          text: Text(
+            'Ajustes',
+            style: TextStyle(
+              fontSize: 15.0,
+              fontFamily: "Poppins-Regular",
+              color: Colors.white,
+            ),
+          ),
+          icon: Icon(Icons.settings, size: 20, color: Colors.white),
+          page: ClassBuilder.fromString('SettingsPage'),
+        ),
+        KFDrawerItem.initWithPage(
+          text: Text(
+            'Tu despensa',
+            style: TextStyle(
+                fontSize: 15.0,
+                fontFamily: "Poppins-Regular",
+                color: Colors.white),
+          ),
+          icon: Icon(Icons.restaurant_menu, size: 20, color: Colors.white),
+          page: MainPage(),
+        ),
+        KFDrawerItem.initWithPage(
+          text: Text(
+            'Tienda',
+            style: TextStyle(
+                fontSize: 15.0,
+                fontFamily: "Poppins-Regular",
+                color: Colors.white),
+          ),
+          icon: Icon(Icons.store, size: 20, color: Colors.white),
+          page: MainPage(),
+        ),
+
+        KFDrawerItem.initWithPage(
+          text: Text(
+            'Ayuda',
+            style: TextStyle(
+                fontSize: 15.0,
+                fontFamily: "Poppins-Regular",
+                color: Colors.white),
+          ),
+          icon: Icon(Icons.help_outline, size: 20, color: Colors.white),
+          page: CalendarPage(),
+        ),
+      ],
+    );
+  }
 
   void _incrementCounter() {
     setState(() {
@@ -67,12 +147,85 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+      body: Stack(
+        alignment: Alignment.center,
+        children: <Widget>[
+          GradientBack(height: null),
+          KFDrawer(
+            //borderRadius: 0.0,
+            shadowBorderRadius: 20.0,
+            //menuPadding: EdgeInsets.all(0.0),
+            //scrollable: true,
+            controller: _drawerController,
+            header: Align(
+              alignment: Alignment.centerLeft,
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 75.0),
+                    margin: EdgeInsets.only(bottom: 10),
+                    width: MediaQuery.of(context).size.width * 0.6,
+                    child: Column(
+                      children: <Widget>[
+                        Image.asset(
+                          'assets/images/logo.png',
+                          alignment: Alignment.centerLeft,
+                        ),
+                      ],
+                    ),
+                  ),
+                  Text(
+                    'Despensa App',
+                    style: TextStyle(
+                      fontSize: 18.0,
+                      fontFamily: "Gilroy-ExtraBold",
+                      color: Colors.white,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              )
+            ),
+            footer: KFDrawerItem(
+              text: Text(
+                'Cerrar sesión',
+                style: TextStyle(
+                    fontSize: 16.0,
+                    fontFamily: "Poppins-Medium",
+                    color: Colors.white,
+                ),
+              ),
+              icon: Icon(
+                Icons.input,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                Navigator.of(context).push(CupertinoPageRoute(
+                  fullscreenDialog: true,
+                  builder: (BuildContext context) {
+                    return AuthPage();
+                  },
+                ));
+              },
+            ),
+            //animationDuration: Duration(milliseconds: 200),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.centerRight,
+                colors: [Color(0xFFC42036), Color(0xFF62101B), Color(0xFF62101B)],
+                tileMode: TileMode.repeated,
+              ),
+            ),
+          ),
+        ],
       ),
+    );
+    /*
+    return Scaffold(
+      backgroundColor: Color(0xFFD02427),
       body: Center(
+
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
         child: Column(
@@ -93,20 +246,39 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.display1,
+              'Bienvenido',
+              style: TextStyle(
+                  fontSize: 24.0,
+                  fontFamily: "Poppins-ExtraBold",
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
             ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      bottomNavigationBar: CurvedNavigationBar(
+        backgroundColor: Color(0xFFD02427),
+        color: Colors.white,
+        buttonBackgroundColor: Colors.white,
+        height: 50,
+        items: <Widget>[
+          Icon(Icons.add_shopping_cart, size: 20, color: Colors.black),
+          Icon(Icons.add, size: 20, color: Colors.black),
+          Icon(Icons.home, size: 20, color: Colors.black),
+          Icon(Icons.list, size: 20, color: Colors.black),
+          Icon(Icons.compare_arrows, size: 20, color: Colors.black),
+        ],
+        animationDuration: Duration(
+          milliseconds: 200
+        ),
+        index: 2,
+        animationCurve: Curves.bounceInOut,
+        onTap: (index){
+
+        },
+      ),
     );
+    */
   }
 }
