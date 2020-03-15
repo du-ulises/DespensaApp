@@ -1,5 +1,3 @@
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:despensaapp/widgets/gradient_back.dart';
 import 'package:kf_drawer/kf_drawer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -150,7 +148,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       body: Stack(
         alignment: Alignment.center,
         children: <Widget>[
-          GradientBack(height: null),
           KFDrawer(
             //borderRadius: 0.0,
             shadowBorderRadius: 20.0,
