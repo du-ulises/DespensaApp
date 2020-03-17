@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:kf_drawer/kf_drawer.dart';
 
-class CalendarPage extends KFDrawerContent {
+class SettingsPage extends KFDrawerContent {
   @override
-  _CalendarPageState createState() => _CalendarPageState();
+  _SettingsPageState createState() => _SettingsPageState();
 }
 
-class _CalendarPageState extends State<CalendarPage> {
+class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -35,7 +35,7 @@ class _CalendarPageState extends State<CalendarPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text('Calendar'),
+                  Text('AJUSTES'),
                 ],
               ),
             ),

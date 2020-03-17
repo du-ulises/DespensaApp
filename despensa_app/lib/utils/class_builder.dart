@@ -1,6 +1,8 @@
-import '../screens/calendar_page.dart';
-import '../screens/main_page.dart';
-import '../screens/settings_page.dart';
+import '../Client/ui/screens/main_page.dart';
+import '../Client/ui/screens/settings_page.dart';
+import '../Client/ui/screens/larder_page.dart';
+import '../Client/ui/screens/store_page.dart';
+import '../Client/ui/screens/help_page.dart';
 
 typedef T Constructor<T>();
 
@@ -13,8 +15,10 @@ void register<T>(Constructor<T> constructor) {
 class ClassBuilder {
   static void registerClasses() {
     register<MainPage>(() => MainPage());
-    register<CalendarPage>(() => CalendarPage());
     register<SettingsPage>(() => SettingsPage());
+    register<LarderPage>(() => LarderPage());
+    register<StorePage>(() => StorePage());
+    register<HelpPage>(() => HelpPage());
   }
 
   static dynamic fromString(String type) {

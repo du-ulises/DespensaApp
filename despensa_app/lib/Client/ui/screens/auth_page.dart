@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:despensaapp/Client/ui/widgets/circle_button.dart';
+import 'package:despensaapp/Client/bloc/authentication_bloc/authentication_bloc.dart';
+import 'package:despensaapp/Client/bloc/authentication_bloc/authentication_event.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AuthPage extends StatefulWidget {
   @override
@@ -38,7 +42,13 @@ class _AuthPageState extends State<AuthPage> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Text('Sign in'),
+                      Text('Cerrar sesión'),
+                      CircleButton(true, Icons.exit_to_app, 20.0, Color.fromRGBO(255, 255, 255, 0.6), () {
+                        BlocProvider.of<AuthenticationBloc>(context).dispatch(
+                          LoggedOut(),
+                        );
+                        Navigator.of(context).pop();
+                      },"Cerrar sesión"),
                     ],
                   ),
                 ),
