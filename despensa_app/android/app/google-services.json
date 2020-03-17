@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "672182211956",
+    "firebase_url": "https://despensa-app-a9c63.firebaseio.com",
+    "project_id": "despensa-app-a9c63",
+    "storage_bucket": "despensa-app-a9c63.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:672182211956:android:7657d2eeac62fd96bbc821",
+        "android_client_info": {
+          "package_name": "com.uli.despensaapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "672182211956-r068u40qi5ng5t2a9kffcuok00a0bsgf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.uli.despensaapp",
+            "certificate_hash": "2238d38e63b8b263e4ade11d9b0f634c2a6a1b78"
+          }
+        },
+        {
+          "client_id": "672182211956-q168373183omde0pr53vfhkp260je6vu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCcPvFW6PdCSlDq9eGyRuSX5ja8G9pDYsw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "672182211956-q168373183omde0pr53vfhkp260je6vu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

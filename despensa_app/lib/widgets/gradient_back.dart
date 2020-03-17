@@ -23,8 +23,10 @@ class GradientBack extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: LinearGradient(
             colors: [
-              Color(0xFF3C4D79),
-              Color(0xFF203763)
+              Color(0xFFFAFAFA),
+              Color(0xFFF5F5F5)
+              //Color(0xFFC42036),
+              //Color(0xFF62101B)
               //Color(0xFFD02427)
             ],
           begin: FractionalOffset(0.2, 0.0),
