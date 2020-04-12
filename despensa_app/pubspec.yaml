@@ -36,6 +36,7 @@ dependencies:
   flutter_cupertino_date_picker: ^1.0.12
   image_picker_modern: ^0.4.12+2
   url_launcher:
+  liquid_swipe: ^1.3.1
 
 dev_dependencies:
   flutter_test:
@@ -134,3 +135,13 @@ flutter:
     - assets/images/Branding.png
     - assets/images/google_logo.png
     - assets/images/circle-outline-red.png
+    - assets/images/1.png
+    - assets/images/tienda-en-linea.png
+    - assets/images/credito.png
+    - assets/images/groceries.png
+    - assets/images/store.png
+    - assets/images/shopping-cart.png
+    - assets/images/piggy-bank.png
+    - assets/images/package.png
+    - assets/images/discount.png
+    - assets/images/qr-code.png
