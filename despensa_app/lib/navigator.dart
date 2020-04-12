@@ -153,8 +153,8 @@ class _Nav extends State<Nav> {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
-                end: Alignment.centerRight,
-                colors: [Color(0xFFC42036), Color(0xFF62101B), Color(0xFF62101B)],
+                end: Alignment.bottomCenter,
+                colors: [Color(0xFF2E3748), Color(0xFF2E3748)],
                 tileMode: TileMode.repeated,
               ),
             ),

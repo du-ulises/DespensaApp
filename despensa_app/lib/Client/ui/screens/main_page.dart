@@ -11,9 +11,12 @@ class MainPage extends KFDrawerContent {
   _MainPageState createState() => _MainPageState();
 }
 
-class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin {
+class _MainPageState extends State<MainPage>
+    with SingleTickerProviderStateMixin {
   AnimationController _animationController;
   bool isPlaying = false;
+  int _page = 0;
+  GlobalKey _bottomNavigationKey = GlobalKey();
 
   @override
   void initState() {
@@ -30,109 +33,208 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color(0xFFC42036),
-      body: Row(
+    final pages = [
+      Stack(
         children: <Widget>[
-          ClipRRect(
-            borderRadius: BorderRadius.all(Radius.circular(32.0)),
-            child: Material(
-              shadowColor: Colors.transparent,
-              color: Colors.transparent,
-              child: IconButton(
-                icon: Icon(
-                  Icons.menu,
-                  color: Colors.white,
-                ),
-                onPressed: () => {widget.onMenuPressed()},
-              ),
-            ),
-          ),
-          Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  'Bienvenido',
-                  style: TextStyle(
-                      fontSize: 24.0,
-                      fontFamily: "Poppins-ExtraBold",
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.center,
-                ),
-                /*IconButton(
-                  iconSize: 50,
-                  icon: AnimatedIcon(
-                    icon: AnimatedIcons.play_pause,
-                    progress: _animationController,
+          SafeArea(
+            child: Center(
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    child: Text(_page.toString(), textScaleFactor: 10.0),
                   ),
-                  onPressed: () => _handleOnPressed(),
-                ),*/
-              ],
+                  RaisedButton(
+                    child: Text('Go home'),
+                    onPressed: () {
+                      final CurvedNavigationBarState navBarState =
+                          _bottomNavigationKey.currentState;
+                      navBarState.setPage(2);
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ],
       ),
+      Stack(
+        children: <Widget>[
+          SafeArea(
+            child: Center(
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    child: Text(_page.toString(), textScaleFactor: 10.0),
+                  ),
+                  RaisedButton(
+                    child: Text('Go home'),
+                    onPressed: () {
+                      final CurvedNavigationBarState navBarState =
+                          _bottomNavigationKey.currentState;
+                      navBarState.setPage(2);
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+      Stack(
+        children: <Widget>[
+          SafeArea(
+            child: Center(
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    child: Row(
+                      children: <Widget>[
+                        ClipRRect(
+                          borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                          child: Material(
+                            shadowColor: Colors.transparent,
+                            color: Colors.transparent,
+                            child: IconButton(
+                              icon: Icon(
+                                Icons.menu,
+                                color: Color(0xFF2E3748),
+                              ),
+                              onPressed: widget.onMenuPressed,
+                            ),
+                          ),
+                        ),
+                        Text(
+                          'Bienvenido',
+                          style: TextStyle(
+                            fontSize: 18.0,
+                            fontFamily: "Poppins-Medium",
+                            color: Color(0xFF2E3748),
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        ClipRRect(
+                          borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                          child: Material(
+                            shadowColor: Colors.transparent,
+                            color: Colors.transparent,
+                            child: IconButton(
+                              icon: Icon(
+                                Icons.search,
+                                color: Color(0xFF2E3748),
+                              ),
+                              onPressed: widget.onMenuPressed,
+                            ),
+                          ),
+                        ),
+                      ],
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    ),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(20.0),
+                          bottomRight: Radius.circular(20.0),
+                        ),
+                        color: Colors.white,
+                        boxShadow: <BoxShadow>[
+                          BoxShadow(
+                              color: Colors.black12,
+                              blurRadius: 15.0,
+                              offset: Offset(7.0, 7.0))
+                        ]),
+                    padding: EdgeInsets.only(bottom: 5, top: 5),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+      Stack(
+        children: <Widget>[
+          SafeArea(
+            child: Center(
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    child: Text(_page.toString(), textScaleFactor: 10.0),
+                  ),
+                  RaisedButton(
+                    child: Text('Go home'),
+                    onPressed: () {
+                      final CurvedNavigationBarState navBarState =
+                          _bottomNavigationKey.currentState;
+                      navBarState.setPage(2);
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+      Stack(
+        children: <Widget>[
+          SafeArea(
+            child: Center(
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    child: Text(_page.toString(), textScaleFactor: 10.0),
+                  ),
+                  RaisedButton(
+                    child: Text('Go home'),
+                    onPressed: () {
+                      final CurvedNavigationBarState navBarState =
+                          _bottomNavigationKey.currentState;
+                      navBarState.setPage(2);
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    ];
+
+    return Scaffold(
+      backgroundColor: Color(0xFFC42036),
       bottomNavigationBar: CurvedNavigationBar(
+        key: _bottomNavigationKey,
         backgroundColor: Color(0xFFC42036),
         color: Colors.white,
         buttonBackgroundColor: Colors.white,
         height: 50,
         items: <Widget>[
           Icon(Icons.add_shopping_cart, size: 20, color: Colors.black),
-          Icon(Icons.add, size: 20, color: Colors.black),
+          Icon(Icons.settings_ethernet, size: 20, color: Colors.black),
           Icon(Icons.home, size: 20, color: Colors.black),
           Icon(Icons.list, size: 20, color: Colors.black),
           Icon(Icons.compare_arrows, size: 20, color: Colors.black),
         ],
-        animationDuration: Duration(
-          milliseconds: 200
-        ),
+        animationDuration: Duration(milliseconds: 200),
         index: 2,
         animationCurve: Curves.bounceInOut,
-        onTap: (index){
-
-        },
+          onTap: (index) {
+            setState(() {
+              _page = index;
+            });
+          },
       ),
-    );
-    /*
-    return SafeArea(
-      child: Center(
-        child: Column(
-          children: <Widget>[
-            Row(
+        body: Container(
+          color: Color(0xFFC42036),
+          child: Center(
+            child: Column(
               children: <Widget>[
-                ClipRRect(
-                  borderRadius: BorderRadius.all(Radius.circular(32.0)),
-                  child: Material(
-                    shadowColor: Colors.transparent,
-                    color: Colors.transparent,
-                    child: IconButton(
-                      icon: Icon(
-                        Icons.menu,
-                        color: Colors.black,
-                      ),
-                      onPressed: widget.onMenuPressed,
-                    ),
-                  ),
-                ),
+                pages[_page],
               ],
             ),
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text('Main'),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
+          ),
+        )
     );
-  */
   }
+
   void _handleOnPressed() {
     setState(() {
       isPlaying = !isPlaying;
