@@ -531,6 +531,7 @@ class _HelpPageState extends State<HelpPage> {
                           child: IconButton(
                             icon: Icon(
                               Icons.menu,
+                              size: 35,
                               color: HelpPage.mainColor,
                             ),
                             onPressed: widget.onMenuPressed,

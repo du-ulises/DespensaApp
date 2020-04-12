@@ -12,9 +12,9 @@ class TitleHeader extends StatelessWidget {
     return Text(
             title,
             style: TextStyle(
-              color: Color(0xFF2E3748),
-              fontSize: 24.0,
-              fontFamily: "Gilroy-ExtraBold"
+              color: Colors.black,
+              fontSize: 18.0,
+              fontFamily: "Poppins-Medium",
             ),
     );
   }
