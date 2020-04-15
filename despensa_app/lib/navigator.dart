@@ -2,13 +2,16 @@ import 'package:kf_drawer/kf_drawer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'Client/ui/screens/auth_page.dart';
 import 'Client/ui/screens/help_page.dart';
 import 'Client/ui/screens/store_page.dart';
 import 'Client/ui/screens/larder_page.dart';
 import 'Client/ui/screens/settings_page.dart';
 import 'Client/ui/screens/main_page.dart';
 import 'utils/class_builder.dart';
+
+import 'package:despensaapp/Client/bloc/authentication_bloc/authentication_bloc.dart';
+import 'package:despensaapp/Client/bloc/authentication_bloc/authentication_event.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Nav extends StatefulWidget {
   @override
@@ -141,12 +144,10 @@ class _Nav extends State<Nav> {
                 color: Colors.white,
               ),
               onPressed: () {
-                Navigator.of(context).push(CupertinoPageRoute(
-                  fullscreenDialog: true,
-                  builder: (BuildContext context) {
-                    return AuthPage();
-                  },
-                ));
+                BlocProvider.of<AuthenticationBloc>(context).dispatch(
+                  LoggedOut(),
+                );
+                //Navigator.of(context).pop();
               },
             ),
             //animationDuration: Duration(milliseconds: 200),

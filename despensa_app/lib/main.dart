@@ -54,7 +54,8 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin{
       title: 'Despensa App',
       theme: ThemeData(
         primaryColor: Color(0xFFC42036),
-        primaryColorDark: Color(0xFF2E3748)
+        primaryColorDark: Color(0xFF2E3748),
+        //primarySwatch: Colors.black,
       ),
       home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
         builder: (context, state) {
