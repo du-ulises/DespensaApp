@@ -63,7 +63,7 @@ class _Nav extends State<Nav> {
         ),
         KFDrawerItem.initWithPage(
           text: Text(
-            'Tienda',
+            'Tiendas',
             style: TextStyle(
                 fontSize: 15.0,
                 fontFamily: "Poppins-Regular",
