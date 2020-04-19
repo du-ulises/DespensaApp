@@ -45,11 +45,18 @@ class LineChartSample1State extends State<LineChartSample1> {
                   height: 37,
                 ),
                 const Text(
-                  'Despensa App. 2020',
+                  'Transacciones',
                   style: TextStyle(
-                    color: Colors.white70,
-                    fontSize: 16,
-                    fontFamily: "Gilroy-Light",
+                    fontSize: 18.0,
+                    fontFamily: "Poppins-Medium",
+                    color: Colors.white,
+                    shadows: [
+                      Shadow(
+                        blurRadius: 20.0,
+                        color: Colors.black,
+                        offset: Offset(0.0, 0.0),
+                      ),
+                    ],
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -57,12 +64,12 @@ class LineChartSample1State extends State<LineChartSample1> {
                   height: 4,
                 ),
                 const Text(
-                  'Transacciones',
+                  'Despensa App. 2020',
                   style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 32,
-                      fontFamily: "Gilroy-Light",
-                      letterSpacing: 2),
+                    fontSize: 14.0,
+                    fontFamily: "Poppins-Medium",
+                    color: Colors.white70,
+                  ),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(

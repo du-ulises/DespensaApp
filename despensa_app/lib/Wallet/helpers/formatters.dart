@@ -1,7 +1,3 @@
-/*Credits to Sebastian Arriola
-  https://medium.com/flutterpub/flutter-credit-card-text-formatter-1e259b28cfa3
-*/
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

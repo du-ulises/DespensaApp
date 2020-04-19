@@ -1,4 +1,5 @@
 import 'package:despensaapp/Client/ui/screens/pages/existing-cards.dart';
+import 'package:despensaapp/widgets/button_purple.dart';
 import 'package:flutter/material.dart';
 import 'package:despensaapp/Client/services/payment-service.dart';
 import 'package:progress_dialog/progress_dialog.dart';
@@ -31,7 +32,7 @@ class PayState extends State<Pay> {
     dialog.style(message: 'Por favor espera...');
     await dialog.show();
     var response =
-        await StripeService.payWithNewCard(amount: '300', currency: 'USD');
+        await StripeService.payWithNewCard(amount: '750', currency: 'MXN');
     await dialog.hide();
     Scaffold.of(context).showSnackBar(SnackBar(
       content: Text(response.message),
@@ -48,27 +49,16 @@ class PayState extends State<Pay> {
 
   @override
   Widget build(BuildContext context) {
-    ThemeData theme = Theme.of(context);
-    return InkWell(
-      onTap: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) {
-            return ExistingCardsPage();
-          }),
-        );
-      },
-      child: ListTile(
-        title: Text(
-          'Pagar con tarjeta existente.',
-          style: TextStyle(
-              fontSize: 18.0,
-              fontFamily: "Poppins-Medium",
-              color: Colors.white
-          ),
-          textAlign: TextAlign.center,
-        ),
-        leading: Icon(Icons.credit_card, color: Colors.white),
-      ),
-    );
+    return ButtonPurple(
+        buttonText: "Pagar con tarjeta existente.",
+        iconText: Icon(Icons.credit_card, color: Colors.white),
+        widthButton: 300.0,
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) {
+              return ExistingCardsPage();
+            }),
+          );
+        });
   }
 }

@@ -51,7 +51,7 @@ dependencies:
   # The following adds the Swipper package
   flutter_swiper: ^1.1.4
   fl_chart: ^0.8.7
-  cached_network_image: ^0.8.0
+  cached_network_image: ^2.0.0
 
 dev_dependencies:
   flutter_test:
