@@ -24,14 +24,11 @@ class _StorePageState extends State<StorePage> {
     final markerService = MarkerService();
 
     final styleItems = TextStyle(
-        fontSize: 13.0,
-        color: Colors.black54,
-        fontFamily: 'Poppins-Regular'
-    );
+        fontSize: 13.0, color: Colors.black54, fontFamily: 'Poppins-Regular');
     final styleTitle = TextStyle(
-        fontSize: 14,
-        fontFamily: "Poppins-SemiBold",
-        color: Colors.black,
+      fontSize: 14,
+      fontFamily: "Poppins-SemiBold",
+      color: Colors.black,
     );
 
     return FutureProvider(
@@ -127,8 +124,8 @@ class _StorePageState extends State<StorePage> {
                                 Expanded(
                                   child: Container(
                                     decoration: BoxDecoration(
-                                        color: Color(0xFFC42036),
-                                        ),
+                                      color: Color(0xFFC42036),
+                                    ),
                                     child: ListView.builder(
                                         itemCount: places.length,
                                         itemBuilder: (context, index) {
@@ -153,31 +150,33 @@ class _StorePageState extends State<StorePage> {
                                                 ),
                                                 subtitle: Column(
                                                   crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
+                                                      CrossAxisAlignment.start,
                                                   children: <Widget>[
                                                     SizedBox(
                                                       height: 5.0,
                                                     ),
-                                                    (places[index].rating != null)
+                                                    (places[index].rating !=
+                                                            null)
                                                         ? Row(
-                                                      children: <Widget>[
-                                                        RatingBarIndicator(
-                                                          rating:
-                                                          places[index]
-                                                              .rating,
-                                                          itemBuilder: (context,
-                                                              index) =>
-                                                              Icon(
-                                                                  Icons.star,
-                                                                  color: Color(
-                                                                      0xFFC42036)),
-                                                          itemCount: 5,
-                                                          itemSize: 12.0,
-                                                          direction: Axis
-                                                              .horizontal,
-                                                        )
-                                                      ],
-                                                    )
+                                                            children: <Widget>[
+                                                              RatingBarIndicator(
+                                                                rating: places[
+                                                                        index]
+                                                                    .rating,
+                                                                itemBuilder: (context,
+                                                                        index) =>
+                                                                    Icon(
+                                                                        Icons
+                                                                            .star,
+                                                                        color: Color(
+                                                                            0xFFC42036)),
+                                                                itemCount: 5,
+                                                                itemSize: 12.0,
+                                                                direction: Axis
+                                                                    .horizontal,
+                                                              )
+                                                            ],
+                                                          )
                                                         : Row(),
                                                     SizedBox(
                                                       height: 5.0,
@@ -186,9 +185,16 @@ class _StorePageState extends State<StorePage> {
                                                       builder: (context, meters,
                                                           wiget) {
                                                         return (meters != null)
-                                                            ? Text(
-                                                          '${places[index].vicinity} \u00b7 ${(meters / 1609).round()} mi',
-                                                          style: styleItems,
+                                                            ? (meters<1000)
+                                                              ? Text(
+                                                          '${places[index].vicinity} \u00b7 ${(meters).round()} m',
+                                                          style:
+                                                          styleItems,
+                                                        ) :
+                                                        Text(
+                                                          '${places[index].vicinity} \u00b7 ${(meters).round()} m',
+                                                          style:
+                                                          styleItems,
                                                         )
                                                             : Container();
                                                       },
@@ -275,8 +281,7 @@ class _StorePageState extends State<StorePage> {
                                       CircularProgressIndicator(
                                           valueColor:
                                               new AlwaysStoppedAnimation<Color>(
-                                                  Color(0xFFC42036)),
-                                          backgroundColor: Colors.black)
+                                                  Colors.white))
                                     ],
                                   ),
                                 ),
@@ -337,8 +342,7 @@ class _StorePageState extends State<StorePage> {
                         children: <Widget>[
                           CircularProgressIndicator(
                               valueColor: new AlwaysStoppedAnimation<Color>(
-                                  Color(0xFFC42036)),
-                              backgroundColor: Colors.black)
+                                  Colors.white))
                         ],
                       ),
                     ),

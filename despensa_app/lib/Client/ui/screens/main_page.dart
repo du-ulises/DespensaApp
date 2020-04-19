@@ -1,3 +1,7 @@
+import 'package:despensaapp/Client/ui/widgets/chart.dart';
+import 'package:despensaapp/Client/ui/screens/pages/pay.dart';
+import 'package:despensaapp/Wallet/ui/card_type.dart';
+import 'package:despensaapp/Wallet/ui/widgets/card_list.dart';
 import 'package:flutter/material.dart';
 import 'package:kf_drawer/kf_drawer.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
@@ -33,6 +37,8 @@ class _MainPageState extends State<MainPage>
 
   @override
   Widget build(BuildContext context) {
+    final _screenSize = MediaQuery.of(context).size;
+
     final pages = [
       Stack(
         children: <Widget>[
@@ -103,6 +109,7 @@ class _MainPageState extends State<MainPage>
                       ),
                     ),
                   ),
+                  Pay()
                 ],
               ),
             ),
@@ -368,8 +375,18 @@ class _MainPageState extends State<MainPage>
                             shadowColor: Colors.transparent,
                             color: Colors.transparent,
                             child: IconButton(
-                              icon: Icon(Icons.search, color: Colors.black),
-                              onPressed: () => {},
+                              icon: Icon(Icons.add, color: Colors.black),
+                              onPressed: () {
+                                /*Navigator.of(context).push(
+                                  MaterialPageRoute(builder: (context) {
+                                    return App();
+                                  }),
+                                );*/
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => CardType()));
+                              },
                             ),
                           ),
                         ),
@@ -392,7 +409,8 @@ class _MainPageState extends State<MainPage>
                     padding: EdgeInsets.only(bottom: 5, top: 5),
                   ),
                   Container(
-                    margin: EdgeInsets.all(20),
+                    margin: EdgeInsets.only(
+                        top: 20, left: 20, right: 20, bottom: 0),
                     child: ColorFiltered(
                       colorFilter: ColorFilter.mode(
                           Color(0xFFC42036).withOpacity(0.2),
@@ -403,6 +421,7 @@ class _MainPageState extends State<MainPage>
                       ),
                     ),
                   ),
+                  CardList(),
                   /*ClipRRect(
                     borderRadius: BorderRadius.all(Radius.circular(32.0)),
                     child: Material(
@@ -422,6 +441,10 @@ class _MainPageState extends State<MainPage>
               ),
             ),
           ),
+          Container(
+            margin: EdgeInsets.only(top: 120),
+            child: LineChartSample1(),
+          )
         ],
       ),
     ];

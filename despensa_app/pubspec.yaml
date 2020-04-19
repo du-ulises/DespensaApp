@@ -43,6 +43,15 @@ dependencies:
   provider: ^3.0.0
   http: ^0.12.0+4
   flutter_rating_bar: ^3.0.1+1
+  stripe_payment: ^1.0.7
+  progress_dialog: ^1.2.2
+  flutter_credit_card: ^0.1.3
+  # The following adds the ReactiveX package
+  rxdart: ^0.22.0
+  # The following adds the Swipper package
+  flutter_swiper: ^1.1.4
+  fl_chart: ^0.8.7
+  cached_network_image: ^0.8.0
 
 dev_dependencies:
   flutter_test:
@@ -163,3 +172,8 @@ flutter:
     - assets/images/line-truck.png
     - assets/images/line-list.png
     - assets/images/marker.png
+    - assets/images/visa_logo.png
+    - assets/images/creditcardchip.png
+    - assets/images/card_band.jpg
+    - assets/images/card_map.jpg
+    - data/initial.json

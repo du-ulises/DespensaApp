@@ -1,0 +1,39 @@
+{
+	"cardResults": [{
+		"name": "Jose Alvarado",
+		"number": "5221143557669999",
+		"month": "11",
+		"year": "2025",
+		"cvv": "127",
+		"color": null,
+		"type": "Crédito"
+	},
+	{
+		"name": "Romain Rastel",
+		"number": "5221143557669999",
+		"month": "12",
+		"year": "2024",
+		"cvv": "222",
+		"color": null,
+		"type": "Crédito"
+	},
+	{
+		"name": "Nilay Yener",
+		"number": "5221143557669999",
+		"month": "03",
+		"year": "2023",
+		"cvv": "491",
+		"color": null,
+		"type": "Crédito"
+	},
+	{
+		"name": "Pawan Kumar",
+		"number": "5221143557669999",
+		"month": "05",
+		"year": "2022",
+		"cvv": "649",
+		"color": null,
+		"type": "Crédito"
+	}
+	]
+}

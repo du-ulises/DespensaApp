@@ -8,11 +8,16 @@ class PlacesService {
 
   Future<List<Place>> getPlaces(double lat, double lng, BitmapDescriptor icon) async {
     print('Getting places...');
-    var response = await http.get('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=$lat,$lng&type=store&rankby=distance&key=$key');
-    print(response.body);
-    var json = convert.jsonDecode(response.body);
-    var jsonResults = json['results'] as List;
-    return jsonResults.map((place) => Place.fromJson(place,icon)).toList();
+    try{
+      var response = await http.get('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=$lat,$lng&type=store&rankby=distance&key=$key');
+      print(response.body);
+      var json = convert.jsonDecode(response.body);
+      var jsonResults = json['results'] as List;
+      return jsonResults.map((place) => Place.fromJson(place,icon)).toList();
+    }catch(e){
+      print("A OCURRIDO UN ERROR");
+      print(e);
+    }
   }
 
 }
