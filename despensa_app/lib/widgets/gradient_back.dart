@@ -35,8 +35,6 @@ class GradientBack extends StatelessWidget {
             tileMode: TileMode.clamp
         )
       ),
-
-
       child: FittedBox(
         fit: BoxFit.none,
         alignment: Alignment(-1.5, -0.8),

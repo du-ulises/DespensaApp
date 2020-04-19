@@ -19,7 +19,6 @@ class Nav extends StatefulWidget {
 }
 
 class _Nav extends State<Nav> {
-
   KFDrawerController _drawerController;
 
   @override
@@ -72,7 +71,6 @@ class _Nav extends State<Nav> {
           icon: Icon(Icons.store, size: 20, color: Colors.white),
           page: StorePage(),
         ),
-
         KFDrawerItem.initWithPage(
           text: Text(
             'Ayuda',
@@ -90,11 +88,52 @@ class _Nav extends State<Nav> {
 
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
     // TODO: implement build
     return Scaffold(
       body: Stack(
         alignment: Alignment.center,
         children: <Widget>[
+          Container(
+            width: screenWidth,
+            height: screenHeight,
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    colors: [
+                      Color(0xFF2E3748),
+                      Color(0xFF2E3748)
+                      //Color(0xFFC42036),
+                      //Color(0xFF62101B)
+                      //Color(0xFFD02427)
+                    ],
+                    begin: FractionalOffset(0.2, 0.0),
+                    end: FractionalOffset(1.0, 0.6),
+                    stops: [0.0, 0.6],
+                    tileMode: TileMode.clamp)),
+            child: FittedBox(
+              fit: BoxFit.none,
+              alignment: Alignment(-1.5, -0.8),
+              child: Container(
+                width: screenHeight,
+                height: screenHeight,
+                decoration: BoxDecoration(
+                    color: Color.fromRGBO(0, 0, 0, 0.05),
+                    borderRadius: BorderRadius.circular(screenHeight / 2)),
+              ),
+            ),
+            /*Text(
+        title,
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 30.0,
+          fontFamily: "Lato",
+          fontWeight: FontWeight.bold
+        ),
+      ),*/
+
+            //alignment: Alignment(-0.9, -0.6),
+          ),
           KFDrawer(
             //borderRadius: 0.0,
             shadowBorderRadius: 20.0,
@@ -112,24 +151,34 @@ class _Nav extends State<Nav> {
                       child: Column(
                         children: <Widget>[
                           Image.asset(
-                            'assets/images/logo.png',
+                            'assets/images/circle-outline-red.png',
                             alignment: Alignment.centerLeft,
                           ),
                         ],
                       ),
                     ),
-                    Text(
-                      'Despensa App',
-                      style: TextStyle(
-                        fontSize: 18.0,
-                        fontFamily: "Gilroy-ExtraBold",
-                        color: Colors.white,
+                    RichText(
+                      text: TextSpan(
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          fontFamily: "Poppins-ExtraBold",
+                          color: Color(0xFFC42036),
+                        ),
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: "Despensa App",
+                            style: TextStyle(
+                              fontSize: 18.0,
+                              fontFamily: "Gilroy-ExtraBold",
+                              color: Colors.white,
+                            ),
+                          ),
+                          TextSpan(text: '.'),
+                        ],
                       ),
-                      textAlign: TextAlign.center,
                     ),
                   ],
-                )
-            ),
+                )),
             footer: KFDrawerItem(
               text: Text(
                 'Cerrar sesión',
@@ -141,7 +190,7 @@ class _Nav extends State<Nav> {
               ),
               icon: Icon(
                 Icons.input,
-                color: Colors.white,
+                color: Color(0xFFC42036),
               ),
               onPressed: () {
                 BlocProvider.of<AuthenticationBloc>(context).dispatch(
@@ -151,14 +200,14 @@ class _Nav extends State<Nav> {
               },
             ),
             //animationDuration: Duration(milliseconds: 200),
-            decoration: BoxDecoration(
+            /*decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [Color(0xFF2E3748), Color(0xFF2E3748)],
                 tileMode: TileMode.repeated,
               ),
-            ),
+            ),*/
           ),
         ],
       ),
