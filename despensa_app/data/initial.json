@@ -1,12 +1,12 @@
 {
 	"cardResults": [{
-		"name": "Jose Alvarado",
-		"number": "5221143557669999",
+		"name": "Diego Ulises Martínez",
+		"number": "4242424242424242",
 		"month": "11",
 		"year": "2025",
 		"cvv": "127",
 		"color": null,
-		"type": "Crédito"
+		"type": "Débito"
 	},
 	{
 		"name": "Romain Rastel",
@@ -27,11 +27,11 @@
 		"type": "Crédito"
 	},
 	{
-		"name": "Pawan Kumar",
-		"number": "5221143557669999",
+		"name": "Kit Madden",
+		"number": "4242424242424242",
 		"month": "05",
 		"year": "2022",
-		"cvv": "649",
+		"cvv": "120",
 		"color": null,
 		"type": "Crédito"
 	}

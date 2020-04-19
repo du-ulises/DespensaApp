@@ -11,7 +11,7 @@ class CardType extends StatelessWidget {
 			padding: EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 0.0),
 			child: Text.rich(
 				TextSpan(
-					text: 'Ahora puede agregar tarjetas de regalo con un saldo específico en la billetera. Cuando los autos lleguen a \$0.00, desaparecerán automáticamente. ¿Quiere saber si su tarjeta de regalo se vinculará? ',
+					text: 'Ahora puede agregar tarjetas de regalo con un saldo específico en la billetera. Cuando los saldos lleguen a \$0.00, desaparecerán automáticamente. ¿Quiere saber si su tarjeta de regalo se vinculará? ',
 					style: TextStyle(
 						fontSize: 13.0,
 						color: Colors.grey[700],

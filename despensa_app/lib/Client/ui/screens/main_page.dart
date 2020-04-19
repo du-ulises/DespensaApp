@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:kf_drawer/kf_drawer.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
+import 'package:despensaapp/Product/ui/screens/products_list.dart';
+
 class MainPage extends KFDrawerContent {
   MainPage({
     Key key,
@@ -109,7 +111,53 @@ class _MainPageState extends State<MainPage>
                       ),
                     ),
                   ),
-                  Pay()
+
+                  Container(
+                      margin: EdgeInsets.only(bottom: 10, right: 20),
+                      alignment: Alignment.bottomRight,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: <Widget>[
+                          Container(
+                            margin: EdgeInsets.only(bottom: 10),
+                            child: RichText(
+                              text: TextSpan(
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                  fontFamily: "Poppins-SemiBold",
+                                  color: Colors.white,
+                                  shadows: [
+                                    Shadow(
+                                      blurRadius: 20.0,
+                                      color: Colors.black,
+                                      offset: Offset(0.0, 0.0),
+                                    ),
+                                  ],
+                                ),
+                                children: <TextSpan>[
+                                  TextSpan(
+                                    text: "Total a Pagar ",
+                                    style: TextStyle(
+                                      fontSize: 16.0,
+                                      fontFamily: "Poppins-Medium",
+                                      color: Colors.white,
+                                      shadows: [
+                                        Shadow(
+                                          blurRadius: 20.0,
+                                          color: Colors.black,
+                                          offset: Offset(0.0, 0.0),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  TextSpan(text: '\$ 750.00'),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Pay()
+                        ],
+                      )),
                 ],
               ),
             ),
@@ -264,6 +312,8 @@ class _MainPageState extends State<MainPage>
               ),
             ),
           ),
+
+          HeaderAppBar(),
         ],
       ),
       Stack(

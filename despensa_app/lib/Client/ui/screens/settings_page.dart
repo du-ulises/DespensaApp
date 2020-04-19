@@ -23,6 +23,7 @@ class SettingsPage extends KFDrawerContent {
 class _SettingsPageState extends State<SettingsPage> {
   bool _notifications = true;
   bool _localization = true;
+  bool _limit = false;
 
   Future getClient() async {
     final String CLIENTS = "clients";
@@ -224,6 +225,27 @@ class _SettingsPageState extends State<SettingsPage> {
                     onTap: () {
                       setState(() {
                         _localization = !_localization;
+                      });
+                    },
+                  ),
+                ),
+                MergeSemantics(
+                  child: ListTile(
+                    title: Text('Límite de gasto mensual', style: styleItems),
+                    subtitle: Text(
+                        'Recordatorios de uso, notificarme cuando el límite de gasto mensual sea superado.'),
+                    trailing: CupertinoSwitch(
+                      value: _localization,
+                      onChanged: (bool value) {
+                        setState(() {
+                          _limit = value;
+                        });
+                      },
+                      activeColor: activeColor,
+                    ),
+                    onTap: () {
+                      setState(() {
+                        _limit = !_limit;
                       });
                     },
                   ),

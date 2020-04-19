@@ -1,12 +1,15 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:despensaapp/Client/model/client.dart';
+import 'package:despensaapp/Client/repository/cloud_firestore_api.dart';
 import 'package:despensaapp/Client/repository/cloud_firestore_repository.dart';
 import 'package:despensaapp/Client/repository/firebase_storage_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+
+import 'package:despensaapp/Product/model/product.dart';
 
 class FirebaseAuthAPI {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -133,4 +136,13 @@ class FirebaseAuthAPI {
   final _firebaseStorageRepository = FirebaseStorageRepository();
   Future<StorageUploadTask> uploadFile(String path, File image) =>
       _firebaseStorageRepository.uploadFile(path, image);
+
+  Stream<QuerySnapshot> productsListStream = Firestore.instance.collection(CloudFirestoreAPI().PRODUCTS).snapshots();
+  Stream<QuerySnapshot> get productsStream => productsListStream;
+  List<Product> buildProducts(List<DocumentSnapshot> productsListSnapshot, Client user) => _cloudFirestoreRepository.buildProducts(productsListSnapshot, user);
+  Future likePlace(Product product, String uid) => _cloudFirestoreRepository.likeProduct(product,uid);
+
+  StreamController<Product> productSelectedStreamController =  StreamController<Product>();
+  Stream<Product> get productSelectedStream => productSelectedStreamController.stream;
+  StreamSink<Product> get productSelectedSink =>  productSelectedStreamController.sink;
 }
