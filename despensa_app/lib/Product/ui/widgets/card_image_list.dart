@@ -4,6 +4,7 @@ import 'package:despensaapp/widgets/button_purple.dart';
 import 'package:flutter/material.dart';
 import 'package:despensaapp/Product/model/product.dart';
 import 'package:despensaapp/Product/ui/widgets/card_image.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CardImageList extends StatefulWidget {
   Client user;
@@ -30,6 +31,25 @@ class _CardImageList extends State<CardImageList> {
       isBulk: false,
       category: "",
       store: "");
+
+  final Color darkColor = Color(0xFF212121);
+  final Color lightColor = Color(0xFFF4F8FF);
+
+  bool _isElegance = false;
+
+  Future<Null> getSharedPrefs() async {
+    SharedPreferences theme = await SharedPreferences.getInstance();
+    bool isElegance = (theme.getBool("Elegance") ?? false);
+    setState(() {
+      _isElegance = isElegance;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getSharedPrefs();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -112,11 +132,11 @@ class _CardImageList extends State<CardImageList> {
                       style: TextStyle(
                         fontSize: 18.0,
                         fontFamily: "Poppins-Medium",
-                        color: Colors.white,
+                        color: _isElegance ? darkColor : Colors.white,
                         shadows: [
                           Shadow(
                             blurRadius: 20.0,
-                            color: Colors.black,
+                            color: _isElegance ? lightColor : Colors.black,
                             offset: Offset(0.0, 0.0),
                           ),
                         ],
@@ -142,11 +162,11 @@ class _CardImageList extends State<CardImageList> {
                               style: TextStyle(
                                 fontSize: 16.0,
                                 fontFamily: "Poppins-Medium",
-                                color: Colors.white,
+                                color: _isElegance ? darkColor : Colors.white,
                                 shadows: [
                                   Shadow(
                                     blurRadius: 20.0,
-                                    color: Colors.black,
+                                    color: _isElegance ? lightColor : Colors.black,
                                     offset: Offset(0.0, 0.0),
                                   ),
                                 ],
@@ -186,6 +206,7 @@ class _CardImageList extends State<CardImageList> {
                       setLiked(product);
                     },
                     internet: true,
+                    isElegance: _isElegance
                   ),
                 );
               }).toList(),
@@ -199,17 +220,18 @@ class _CardImageList extends State<CardImageList> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         Container(
-          margin: EdgeInsets.only(top: 118.0, left: 20.0, right: 20.0, bottom: 20),
+          margin:
+              EdgeInsets.only(top: 118.0, left: 20.0, right: 20.0, bottom: 20),
           child: Text(
             product.name + ".",
             style: TextStyle(
               fontFamily: "Poppins-ExtraBold",
-              color: Colors.white,
+              color: _isElegance ? darkColor : Colors.white,
               fontSize: 18.0,
               shadows: [
                 Shadow(
                   blurRadius: 20.0,
-                  color: Colors.black,
+                  color: _isElegance ? lightColor : Colors.black,
                   offset: Offset(0.0, 0.0),
                 ),
               ],
@@ -220,21 +242,21 @@ class _CardImageList extends State<CardImageList> {
         Container(
           margin: EdgeInsets.only(left: 20.0, right: 20.0),
           child: Text(
-            "\$ ${product.price}"+(product.isBulk ? " / Kg" : ""),
+            "\$ ${product.price}" + (product.isBulk ? " / Kg" : ""),
             style: TextStyle(
                 fontFamily: "Poppins-SemiBold",
                 fontSize: 16.0,
-                color: Colors.white),
+                color: _isElegance ? darkColor : Colors.white),
             textAlign: TextAlign.center,
           ),
         ),
         Container(
           margin: new EdgeInsets.only(left: 20.0, right: 20.0),
           child: new Text(
-            product.description+".",
-            style: const TextStyle(
+            product.description + ".",
+            style: TextStyle(
               fontFamily: "Poppins-Medium",
-              color: Colors.white70,
+              color: _isElegance ? Colors.black54 : Colors.white70,
               fontSize: 16.0,
             ),
             textAlign: TextAlign.center,
@@ -245,16 +267,17 @@ class _CardImageList extends State<CardImageList> {
           child: Text(
             "${product.likes} Me gusta",
             style: TextStyle(
-                fontFamily: "Poppins-SemiBold",
-                fontSize: 16.0,
-                color: Colors.white,
+              fontFamily: "Poppins-SemiBold",
+              fontSize: 16.0,
+              color: _isElegance ? darkColor : Colors.white,
               shadows: [
                 Shadow(
                   blurRadius: 20.0,
-                  color: Colors.black,
+                  color: _isElegance ? lightColor : Colors.black,
                   offset: Offset(0.0, 0.0),
                 ),
-              ],),
+              ],
+            ),
             textAlign: TextAlign.center,
           ),
         ),
@@ -263,9 +286,10 @@ class _CardImageList extends State<CardImageList> {
           child: Text(
             "En ${product.store}",
             style: TextStyle(
-                fontFamily: "Poppins-Medium",
-                fontSize: 16.0,
-                color: Colors.white,),
+              fontFamily: "Poppins-Medium",
+              fontSize: 16.0,
+              color: _isElegance ? darkColor : Colors.white,
+            ),
             textAlign: TextAlign.center,
           ),
         ),
@@ -276,7 +300,7 @@ class _CardImageList extends State<CardImageList> {
             style: TextStyle(
                 fontFamily: "Poppins-Medium",
                 fontSize: 16.0,
-                color: Colors.white70),
+                color: _isElegance ? Colors.black54 : Colors.white70),
             textAlign: TextAlign.center,
           ),
         ),

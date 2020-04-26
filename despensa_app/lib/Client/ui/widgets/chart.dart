@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LineChartSample1 extends StatefulWidget {
   @override
@@ -20,11 +21,23 @@ class LineChartSample1State extends State<LineChartSample1> {
     const Color(0xff23b6e6),
     const Color(0xff02d39a),
   ];
+  final Color darkColor = Color(0xFF212121);
+  final Color lightColor = Color(0xFFF4F8FF);
 
+  bool _isElegance = false;
+
+  Future<Null> getSharedPrefs() async {
+    SharedPreferences theme = await SharedPreferences.getInstance();
+    bool isElegance = (theme.getBool("Elegance") ?? false);
+    setState(() {
+      _isElegance = isElegance;
+    });
+  }
   @override
   void initState() {
     super.initState();
     isShowingMainData = true;
+    getSharedPrefs();
   }
 
   @override
@@ -44,16 +57,16 @@ class LineChartSample1State extends State<LineChartSample1> {
                 const SizedBox(
                   height: 37,
                 ),
-                const Text(
+                Text(
                   'Transacciones',
                   style: TextStyle(
                     fontSize: 18.0,
                     fontFamily: "Poppins-Medium",
-                    color: Colors.white,
+                    color: _isElegance ? darkColor : Colors.white,
                     shadows: [
                       Shadow(
                         blurRadius: 20.0,
-                        color: Colors.black,
+                        color: _isElegance ? lightColor : Colors.black,
                         offset: Offset(0.0, 0.0),
                       ),
                     ],
@@ -63,12 +76,12 @@ class LineChartSample1State extends State<LineChartSample1> {
                 const SizedBox(
                   height: 4,
                 ),
-                const Text(
+                Text(
                   'Despensa App. 2020',
                   style: TextStyle(
                     fontSize: 14.0,
                     fontFamily: "Poppins-Medium",
-                    color: Colors.white70,
+                    color:  _isElegance ? darkColor.withOpacity(isShowingMainData ? 1.0 : 0.5) : Colors.white70,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -92,7 +105,7 @@ class LineChartSample1State extends State<LineChartSample1> {
             IconButton(
               icon: Icon(
                 Icons.refresh,
-                color: Colors.white.withOpacity(isShowingMainData ? 1.0 : 0.5),
+                color: _isElegance ? darkColor.withOpacity(isShowingMainData ? 1.0 : 0.5) : Colors.white.withOpacity(isShowingMainData ? 1.0 : 0.5),
               ),
               onPressed: () {
                 setState(() {
@@ -110,7 +123,7 @@ class LineChartSample1State extends State<LineChartSample1> {
     return LineChartData(
       lineTouchData: LineTouchData(
         touchTooltipData: LineTouchTooltipData(
-          tooltipBgColor: Colors.blueGrey.withOpacity(0.8),
+          tooltipBgColor: _isElegance ? darkColor : Colors.blueGrey.withOpacity(0.8),
         ),
         touchCallback: (LineTouchResponse touchResponse) {},
         handleBuiltInTouches: true,
@@ -122,8 +135,8 @@ class LineChartSample1State extends State<LineChartSample1> {
         bottomTitles: SideTitles(
           showTitles: true,
           reservedSize: 22,
-          textStyle: const TextStyle(
-            color: Colors.white,
+          textStyle: TextStyle(
+            color: _isElegance ? darkColor : Colors.white,
             fontWeight: FontWeight.bold,
             fontFamily: "Gilroy-Light",
             fontSize: 14,
@@ -143,8 +156,8 @@ class LineChartSample1State extends State<LineChartSample1> {
         ),
         leftTitles: SideTitles(
           showTitles: true,
-          textStyle: const TextStyle(
-            color: Colors.white70,
+          textStyle: TextStyle(
+            color: _isElegance ? darkColor : Colors.white70,
             fontWeight: FontWeight.bold,
             fontSize: 14,
             fontFamily: "Gilroy-Light",
@@ -168,9 +181,9 @@ class LineChartSample1State extends State<LineChartSample1> {
       ),
       borderData: FlBorderData(
         show: true,
-        border: const Border(
+        border: Border(
           bottom: BorderSide(
-            color: Colors.white,
+            color: _isElegance ? darkColor : Colors.white,
             width: 1,
           ),
           left: BorderSide(
@@ -271,8 +284,8 @@ class LineChartSample1State extends State<LineChartSample1> {
         bottomTitles: SideTitles(
           showTitles: true,
           reservedSize: 22,
-          textStyle: const TextStyle(
-            color: Colors.white,
+          textStyle: TextStyle(
+            color: _isElegance ? darkColor : Colors.white,
             fontWeight: FontWeight.bold,
             fontFamily: "Gilroy-Light",
             fontSize: 14,
@@ -292,8 +305,8 @@ class LineChartSample1State extends State<LineChartSample1> {
         ),
         leftTitles: SideTitles(
           showTitles: true,
-          textStyle: const TextStyle(
-            color: Colors.white70,
+          textStyle: TextStyle(
+            color: _isElegance ? darkColor : Colors.white70,
             fontWeight: FontWeight.bold,
             fontFamily: "Gilroy-Light",
             fontSize: 14,
@@ -319,9 +332,9 @@ class LineChartSample1State extends State<LineChartSample1> {
       ),
       borderData: FlBorderData(
           show: true,
-          border: const Border(
+          border: Border(
             bottom: BorderSide(
-              color: Colors.white,
+              color: _isElegance ? darkColor : Colors.white,
               width: 1,
             ),
             left: BorderSide(

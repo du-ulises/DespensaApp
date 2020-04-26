@@ -1,5 +1,6 @@
 import 'package:despensaapp/Wallet/ui/app.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../ui/widgets/navbar.dart';
 import '../ui/widgets/flip_card.dart';
 import '../ui/widgets/card_front.dart';
@@ -20,10 +21,23 @@ class _CardCreateState extends State<CardCreate> {
 
   FocusNode _focusNode = new FocusNode();
 
+  bool _isElegance = false;
+  final Color darkColor = Color(0xFF212121);
+  final Color lightColor = Color(0xFFF4F8FF);
+
+  Future<Null> getSharedPrefs() async {
+    SharedPreferences theme = await SharedPreferences.getInstance();
+    bool isElegance = (theme.getBool("Elegance") ?? false);
+    setState(() {
+      _isElegance = isElegance;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     _focusNode.addListener(_focusNodeListener);
+    getSharedPrefs();
   }
 
   @override
@@ -53,8 +67,9 @@ class _CardCreateState extends State<CardCreate> {
         ),
       ),
     );
-    final style = TextStyle(fontFamily: "Poppins-Light",
-        fontWeight: FontWeight.bold);
+    final style =
+        TextStyle(fontFamily: "Poppins-Light", fontWeight: FontWeight.bold);
+
     final _name = StreamBuilder(
         stream: bloc.name,
         builder: (context, snapshot) {
@@ -65,10 +80,9 @@ class _CardCreateState extends State<CardCreate> {
             style: TextStyle(
                 fontSize: 15.0,
                 fontFamily: "Gilroy-Light",
-                color: Color(0xFF2E3748),
+                color: _isElegance ? darkColor : Color(0xFF2E3748),
                 fontWeight: FontWeight.bold,
-                letterSpacing: 2
-            ),
+                letterSpacing: 2),
             decoration: InputDecoration(
               contentPadding: EdgeInsets.only(left: 18, top: 10),
               hintText: 'Nombre del titular',
@@ -79,24 +93,21 @@ class _CardCreateState extends State<CardCreate> {
               errorStyle: style,
               enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: Color(0xFFFFFFFF)),
-                  borderRadius: BorderRadius.all(Radius.circular(15.0))
-              ),
+                  borderRadius: BorderRadius.all(Radius.circular(15.0))),
               focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Color(0xFFC42036),width: 1.5),
-                  borderRadius: BorderRadius.all(Radius.circular(15.0))
-              ),
+                  borderSide: BorderSide(
+                      color: _isElegance ? darkColor : Color(0xFFC42036),
+                      width: 1.5),
+                  borderRadius: BorderRadius.all(Radius.circular(15.0))),
               errorBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: Color(0xFFFFFFFF)),
-                  borderRadius: BorderRadius.all(Radius.circular(15.0))
-              ),
+                  borderRadius: BorderRadius.all(Radius.circular(15.0))),
               disabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: Color(0xFFFFFFFF)),
-                  borderRadius: BorderRadius.all(Radius.circular(15.0))
-              ),
+                  borderRadius: BorderRadius.all(Radius.circular(15.0))),
               focusedErrorBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: Color(0xFFFFFFFF)),
-                  borderRadius: BorderRadius.all(Radius.circular(15.0))
-              ),
+                  borderRadius: BorderRadius.all(Radius.circular(15.0))),
             ),
           );
         });
@@ -120,40 +131,36 @@ class _CardCreateState extends State<CardCreate> {
               style: TextStyle(
                   fontSize: 15.0,
                   fontFamily: "Gilroy-Light",
-                  color: Color(0xFF2E3748),
+                  color: _isElegance ? darkColor : Color(0xFF2E3748),
                   fontWeight: FontWeight.bold,
-                letterSpacing: 2
-              ),
+                  letterSpacing: 2),
               decoration: InputDecoration(
-
-                  border: InputBorder.none,
-                  filled: true,
-                  fillColor: Colors.white,
-                  hintText: 'Número de tarjeta',
-                  counterText: '',
-                  errorText: snapshot.error,
+                border: InputBorder.none,
+                filled: true,
+                fillColor: Colors.white,
+                hintText: 'Número de tarjeta',
+                counterText: '',
+                errorText: snapshot.error,
                 errorStyle: style,
                 contentPadding: EdgeInsets.only(left: 18, top: 10),
                 enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Color(0xFFFFFFFF)),
-                    borderRadius: BorderRadius.all(Radius.circular(15.0))
-                ),
+                    borderRadius: BorderRadius.all(Radius.circular(15.0))),
                 focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFC42036),width: 1.5),
-                    borderRadius: BorderRadius.all(Radius.circular(15.0))
-                ),
+                    borderSide: BorderSide(
+                        color: _isElegance ? darkColor : Color(0xFFC42036),
+                        width: 1.5),
+                    borderRadius: BorderRadius.all(Radius.circular(15.0))),
                 errorBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Color(0xFFFFFFFF)),
-                    borderRadius: BorderRadius.all(Radius.circular(15.0))
-                ),
+                    borderRadius: BorderRadius.all(Radius.circular(15.0))),
                 disabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Color(0xFFFFFFFF)),
-                    borderRadius: BorderRadius.all(Radius.circular(15.0))
-                ),
+                    borderRadius: BorderRadius.all(Radius.circular(15.0))),
                 focusedErrorBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Color(0xFFFFFFFF)),
-                    borderRadius: BorderRadius.all(Radius.circular(15.0))
-                ),),
+                    borderRadius: BorderRadius.all(Radius.circular(15.0))),
+              ),
             );
           }),
     );
@@ -168,43 +175,39 @@ class _CardCreateState extends State<CardCreate> {
             keyboardType: TextInputType.number,
             maxLength: 2,
             maxLengthEnforced: true,
-
             style: TextStyle(
                 fontSize: 15.0,
                 fontFamily: "Gilroy-Light",
-                color: Color(0xFF2E3748),
+                color: _isElegance ? darkColor : Color(0xFF2E3748),
                 fontWeight: FontWeight.bold,
-                letterSpacing: 2
-            ),
+                letterSpacing: 2),
             decoration: InputDecoration(
-                border: InputBorder.none,
-                filled: true,
-                fillColor: Colors.white,
-                hintText: 'MM',
-                counterText: '',
-                errorText: snapshot.error,
+              border: InputBorder.none,
+              filled: true,
+              fillColor: Colors.white,
+              hintText: 'MM',
+              counterText: '',
+              errorText: snapshot.error,
               errorStyle: style,
               contentPadding: EdgeInsets.only(left: 18, top: 10),
               enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: Color(0xFFFFFFFF)),
-                  borderRadius: BorderRadius.all(Radius.circular(15.0))
-              ),
+                  borderRadius: BorderRadius.all(Radius.circular(15.0))),
               focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Color(0xFFC42036),width: 1.5),
-                  borderRadius: BorderRadius.all(Radius.circular(15.0))
-              ),
+                  borderSide: BorderSide(
+                      color: _isElegance ? darkColor : Color(0xFFC42036),
+                      width: 1.5),
+                  borderRadius: BorderRadius.all(Radius.circular(15.0))),
               errorBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: Color(0xFFFFFFFF)),
-                  borderRadius: BorderRadius.all(Radius.circular(15.0))
-              ),
+                  borderRadius: BorderRadius.all(Radius.circular(15.0))),
               disabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: Color(0xFFFFFFFF)),
-                  borderRadius: BorderRadius.all(Radius.circular(15.0))
-              ),
+                  borderRadius: BorderRadius.all(Radius.circular(15.0))),
               focusedErrorBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: Color(0xFFFFFFFF)),
-                  borderRadius: BorderRadius.all(Radius.circular(15.0))
-              ),),
+                  borderRadius: BorderRadius.all(Radius.circular(15.0))),
+            ),
           ),
         );
       },
@@ -220,43 +223,39 @@ class _CardCreateState extends State<CardCreate> {
               keyboardType: TextInputType.number,
               maxLength: 4,
               maxLengthEnforced: true,
-
               style: TextStyle(
                   fontSize: 15.0,
                   fontFamily: "Gilroy-Light",
                   color: Color(0xFF2E3748),
                   fontWeight: FontWeight.bold,
-                  letterSpacing: 2
-              ),
+                  letterSpacing: 2),
               decoration: InputDecoration(
-                  border: InputBorder.none,
-                  filled: true,
-                  fillColor: Colors.white,
-                  hintText: 'YYYY',
-                  counterText: '',
-                  errorText: snapshot.error,
+                border: InputBorder.none,
+                filled: true,
+                fillColor: Colors.white,
+                hintText: 'YYYY',
+                counterText: '',
+                errorText: snapshot.error,
                 errorStyle: style,
                 contentPadding: EdgeInsets.only(left: 18, top: 10),
                 enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Color(0xFFFFFFFF)),
-                    borderRadius: BorderRadius.all(Radius.circular(15.0))
-                ),
+                    borderRadius: BorderRadius.all(Radius.circular(15.0))),
                 focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFC42036),width: 1.5),
-                    borderRadius: BorderRadius.all(Radius.circular(15.0))
-                ),
+                    borderSide: BorderSide(
+                        color: _isElegance ? darkColor : Color(0xFFC42036),
+                        width: 1.5),
+                    borderRadius: BorderRadius.all(Radius.circular(15.0))),
                 errorBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Color(0xFFFFFFFF)),
-                    borderRadius: BorderRadius.all(Radius.circular(15.0))
-                ),
+                    borderRadius: BorderRadius.all(Radius.circular(15.0))),
                 disabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Color(0xFFFFFFFF)),
-                    borderRadius: BorderRadius.all(Radius.circular(15.0))
-                ),
+                    borderRadius: BorderRadius.all(Radius.circular(15.0))),
                 focusedErrorBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Color(0xFFFFFFFF)),
-                    borderRadius: BorderRadius.all(Radius.circular(15.0))
-                ),),
+                    borderRadius: BorderRadius.all(Radius.circular(15.0))),
+              ),
             ),
           );
         });
@@ -272,43 +271,39 @@ class _CardCreateState extends State<CardCreate> {
               keyboardType: TextInputType.number,
               maxLength: 3,
               maxLengthEnforced: true,
-
               style: TextStyle(
                   fontSize: 15.0,
                   fontFamily: "Gilroy-Light",
                   color: Color(0xFF2E3748),
                   fontWeight: FontWeight.bold,
-                  letterSpacing: 2
-              ),
+                  letterSpacing: 2),
               decoration: InputDecoration(
-                  border: InputBorder.none,
-                  filled: true,
-                  fillColor: Colors.white,
-                  counterText: '',
-                  hintText: 'CVV',
-                  errorText: snapshot.error,
+                border: InputBorder.none,
+                filled: true,
+                fillColor: Colors.white,
+                counterText: '',
+                hintText: 'CVV',
+                errorText: snapshot.error,
                 errorStyle: style,
                 contentPadding: EdgeInsets.only(left: 18, top: 10),
                 enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Color(0xFFFFFFFF)),
-                    borderRadius: BorderRadius.all(Radius.circular(15.0))
-                ),
+                    borderRadius: BorderRadius.all(Radius.circular(15.0))),
                 focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFC42036),width: 1.5),
-                    borderRadius: BorderRadius.all(Radius.circular(15.0))
-                ),
+                    borderSide: BorderSide(
+                        color: _isElegance ? darkColor : Color(0xFFC42036),
+                        width: 1.5),
+                    borderRadius: BorderRadius.all(Radius.circular(15.0))),
                 errorBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Color(0xFFFFFFFF)),
-                    borderRadius: BorderRadius.all(Radius.circular(15.0))
-                ),
+                    borderRadius: BorderRadius.all(Radius.circular(15.0))),
                 disabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Color(0xFFFFFFFF)),
-                    borderRadius: BorderRadius.all(Radius.circular(15.0))
-                ),
+                    borderRadius: BorderRadius.all(Radius.circular(15.0))),
                 focusedErrorBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Color(0xFFFFFFFF)),
-                    borderRadius: BorderRadius.all(Radius.circular(15.0))
-                ),),
+                    borderRadius: BorderRadius.all(Radius.circular(15.0))),
+              ),
             ),
           );
         });
@@ -327,8 +322,11 @@ class _CardCreateState extends State<CardCreate> {
                 fontFamily: "Poppins-SemiBold",
               ),
             ),
-            color: Color(0xFFC42036),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            color: _isElegance
+                ? darkColor
+                : _isElegance ? darkColor : Color(0xFFC42036),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             highlightElevation: 10,
             splashColor: Colors.white70,
             onPressed: snapshot.hasData
@@ -358,6 +356,7 @@ class _CardCreateState extends State<CardCreate> {
           appBarTitle: 'Crear tarjeta',
           leading: Icons.arrow_back,
           context: context,
+          isElegance: _isElegance,
         ),
         backgroundColor: Colors.grey[100],
         body: ListView(

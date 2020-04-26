@@ -1,9 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import './widgets//navbar.dart';
 import './widgets/buttons/button.dart';
 import './card_create.dart';
 
-class CardType extends StatelessWidget {
+class CardType extends StatefulWidget {
+  @override
+  _CardTypeState createState() => _CardTypeState();
+}
+
+class _CardTypeState extends State<CardType> {
+	bool _isElegance = false;
+	final Color darkColor =  Color(0xFF212121);
+	final Color lightColor = Color(0xFFF4F8FF);
+
+	Future<Null> getSharedPrefs() async {
+		SharedPreferences theme = await SharedPreferences.getInstance();
+		bool isElegance = (theme.getBool("Elegance") ?? false);
+		setState(() {
+			_isElegance = isElegance;
+		});
+	}
+
+	@override
+	void initState() {
+		// TODO: implement initState
+		super.initState();
+		getSharedPrefs();
+	}
+
 	@override
 	Widget build(BuildContext context) {
 
@@ -21,7 +46,7 @@ class CardType extends StatelessWidget {
 						TextSpan(
 							text: 'Aprende más',
 							style: TextStyle(
-								color: Color(0xFFC42036),
+								color: _isElegance ? darkColor : Color(0xFFC42036),
 									fontFamily: "Poppins-Light",
 								fontWeight: FontWeight.bold
 							)
@@ -37,6 +62,7 @@ class CardType extends StatelessWidget {
 				appBarTitle: 'Seleccione el tipo',
 				leading: Icons.clear,
 				context: context,
+				isElegance: _isElegance
 			),
 			body: Container(
 				padding: EdgeInsets.fromLTRB(20.0, 30.0, 20.0, 0.0),
@@ -44,7 +70,7 @@ class CardType extends StatelessWidget {
 					crossAxisAlignment: CrossAxisAlignment.stretch,
 					children: <Widget>[
 						Button(
-							color: Color(0xFFC42036),
+							color: _isElegance ? darkColor : Color(0xFFC42036),
 							text: 'Tarjeta de crédito',
 							textColor: Colors.white,
 							redirect: CardCreate(),
@@ -52,13 +78,13 @@ class CardType extends StatelessWidget {
 						Button(
 							color: Colors.white,
 							text: 'Tarjeta de dédito',
-							textColor: Colors.grey[600],
+							textColor: _isElegance ? darkColor : Colors.grey[600],
 							redirect: CardCreate(),
 						),
 						Button(
 							color: Colors.white,
 							text: 'Tarjeta de regalo',
-							textColor: Colors.grey[600],
+							textColor: _isElegance ? darkColor : Colors.grey[600],
 							redirect: CardCreate(),
 						),
 						_buildTextInfo,

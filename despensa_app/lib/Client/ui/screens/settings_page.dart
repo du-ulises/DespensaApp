@@ -5,17 +5,21 @@ import 'package:kf_drawer/kf_drawer.dart';
 
 import 'package:despensaapp/Client/bloc/authentication_bloc/authentication_bloc.dart';
 import 'package:despensaapp/Client/bloc/authentication_bloc/authentication_event.dart';
-import 'package:despensaapp/Client/ui/widgets/circle_button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:despensaapp/Client/model/client.dart';
 import 'package:despensaapp/Client/ui/widgets/profile_header.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jiffy/jiffy.dart';
 
+import 'package:shared_preferences/shared_preferences.dart';
+
 class SettingsPage extends KFDrawerContent {
+  final VoidCallback onPressedTheme;
+  SettingsPage({
+    Key key,
+    @required this.onPressedTheme,
+  });
   @override
   _SettingsPageState createState() => _SettingsPageState();
 }
@@ -24,6 +28,7 @@ class _SettingsPageState extends State<SettingsPage> {
   bool _notifications = true;
   bool _localization = true;
   bool _limit = false;
+  bool _isElegance = false;
 
   Future getClient() async {
     final String CLIENTS = "clients";
@@ -46,9 +51,26 @@ class _SettingsPageState extends State<SettingsPage> {
     return clientInfo;
   }
 
+  Future<Null> getSharedPrefs() async {
+    SharedPreferences theme = await SharedPreferences.getInstance();
+    bool isElegance = (theme.getBool("Elegance") ?? false);
+    setState(() {
+      _isElegance = isElegance;
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getSharedPrefs();
+  }
+
   @override
   Widget build(BuildContext context) {
     final Color activeColor = Color(0xFFC42036);
+    final Color darkColor =  Color(0xFF212121);
+    final Color lightColor = Color(0xFFF4F8FF);
 
     final styleItems = TextStyle(
       fontFamily: "Poppins-Regular",
@@ -73,7 +95,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       shadowColor: Colors.transparent,
                       color: Colors.transparent,
                       child: IconButton(
-                        icon: Icon(Icons.menu, color: Colors.black),
+                        icon: Icon(Icons.menu, color: _isElegance ? lightColor : Colors.black),
                         onPressed: widget.onMenuPressed,
                       ),
                     ),
@@ -83,7 +105,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     style: TextStyle(
                         fontSize: 18.0,
                         fontFamily: "Poppins-Medium",
-                        color: Colors.black),
+                        color: _isElegance ? lightColor : Colors.black),
                     textAlign: TextAlign.center,
                   ),
                 ],
@@ -95,7 +117,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     bottomLeft: Radius.circular(20.0),
                     bottomRight: Radius.circular(20.0),
                   ),
-                  color: Colors.white,
+                  color: _isElegance ? darkColor :Colors.white,
                   boxShadow: <BoxShadow>[
                     BoxShadow(
                         color: Colors.black12,
@@ -235,7 +257,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     subtitle: Text(
                         'Recordatorios de uso, notificarme cuando el límite de gasto mensual sea superado.'),
                     trailing: CupertinoSwitch(
-                      value: _localization,
+                      value: _limit,
                       onChanged: (bool value) {
                         setState(() {
                           _limit = value;
@@ -250,12 +272,39 @@ class _SettingsPageState extends State<SettingsPage> {
                     },
                   ),
                 ),
+                MergeSemantics(
+                  child: ListTile(
+                    title: Text('Modo oscuro', style: styleItems),
+                    subtitle: Text(
+                        'Tema oscuro de la aplicación.'),
+                    trailing: CupertinoSwitch(
+                      value: _isElegance,
+                      onChanged: (bool value) {
+                        _themeChanger();
+                        widget.onPressedTheme();
+                      },
+                      activeColor: activeColor,
+                    ),
+                    onTap: _themeChanger,
+                  ),
+                ),
               ],
             ),
           ],
         ),
       ),
     );
+  }
+
+  _themeChanger() async {
+    SharedPreferences theme = await SharedPreferences.getInstance();
+    bool isElegance = (theme.getBool("Elegance") ?? false);
+    isElegance = !isElegance;
+    setState(() {
+      _isElegance = isElegance;
+    });
+    print(isElegance ? "EleganceTheme" : "ColorsTheme");
+    await theme.setBool("Elegance", isElegance);
   }
 
   Widget showProfileData(Client client) {

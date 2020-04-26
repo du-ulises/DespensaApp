@@ -7,6 +7,7 @@ import 'package:despensaapp/Wallet/ui/widgets/card/valid_thru.dart';
 import 'package:despensaapp/Wallet/ui/widgets/navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:despensaapp/Client/services/payment-service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stripe_payment/stripe_payment.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 
@@ -22,6 +23,24 @@ class ExistingCardsPage extends StatefulWidget {
 }
 
 class ExistingCardsPageState extends State<ExistingCardsPage> {
+  bool _isElegance = false;
+  final Color darkColor =  Color(0xFF212121);
+  final Color lightColor = Color(0xFFF4F8FF);
+
+  Future<Null> getSharedPrefs() async {
+    SharedPreferences theme = await SharedPreferences.getInstance();
+    bool isElegance = (theme.getBool("Elegance") ?? false);
+    setState(() {
+      _isElegance = isElegance;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getSharedPrefs();
+  }
+
   List cards = [
     {
       'cardNumber': '4242424242424242',
@@ -76,6 +95,7 @@ class ExistingCardsPageState extends State<ExistingCardsPage> {
         appBarTitle: 'Seleccione una tarjeta',
         leading: Icons.clear,
         context: context,
+        isElegance: _isElegance,
       ),
       body: StreamBuilder<List<CardResults>>(
         stream: cardListBloc.cardList,

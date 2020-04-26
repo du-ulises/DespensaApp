@@ -11,7 +11,7 @@ class  CardImageWithFabIcon extends StatelessWidget {
   final VoidCallback onPressedFabIcon;
   final IconData iconData;
   bool internet = true;
-
+  bool isElegance = false;
 
   CardImageWithFabIcon({
     Key key,
@@ -20,6 +20,7 @@ class  CardImageWithFabIcon extends StatelessWidget {
     @required this.height,
     @required this.onPressedFabIcon,
     @required this.iconData,
+    this.isElegance,
     this.internet,
     this.left
 
@@ -59,7 +60,7 @@ class  CardImageWithFabIcon extends StatelessWidget {
       alignment: Alignment(0.9,1.1),
       children: <Widget>[
         card,
-        FloatingActionButtonGreen(iconData: iconData, onPressed: onPressedFabIcon,)
+        FloatingActionButtonGreen(iconData: iconData, onPressed: onPressedFabIcon, isElegance: isElegance)
       ],
     );
   }

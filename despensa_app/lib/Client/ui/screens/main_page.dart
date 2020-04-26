@@ -7,6 +7,7 @@ import 'package:kf_drawer/kf_drawer.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
 import 'package:despensaapp/Product/ui/screens/products_list.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MainPage extends KFDrawerContent {
   MainPage({
@@ -23,10 +24,26 @@ class _MainPageState extends State<MainPage>
   bool isPlaying = false;
   int _page = 2;
   GlobalKey _bottomNavigationKey = GlobalKey();
+  bool _isElegance = false;
+
+  Future<Null> getSharedPrefs() async {
+    SharedPreferences theme = await SharedPreferences.getInstance();
+    bool isElegance = (theme.getBool("Elegance") ?? false);
+    setState(() {
+      _isElegance = isElegance;
+    });
+  }
+
+  Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  Future<bool> _theme;
 
   @override
   void initState() {
     super.initState();
+    _theme = _prefs.then((SharedPreferences prefs) {
+      return (prefs.getBool("Elegance") ?? false);
+    });
+    getSharedPrefs();
     _animationController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 300));
   }
@@ -39,7 +56,8 @@ class _MainPageState extends State<MainPage>
 
   @override
   Widget build(BuildContext context) {
-    final _screenSize = MediaQuery.of(context).size;
+    final Color darkColor = Color(0xFF212121);
+    final Color lightColor = Color(0xFFF4F8FF);
 
     final pages = [
       Stack(
@@ -57,7 +75,9 @@ class _MainPageState extends State<MainPage>
                             shadowColor: Colors.transparent,
                             color: Colors.transparent,
                             child: IconButton(
-                              icon: Icon(Icons.menu, color: Colors.black),
+                              icon: Icon(Icons.menu,
+                                  color:
+                                      _isElegance ? lightColor : Colors.black),
                               onPressed: widget.onMenuPressed,
                             ),
                           ),
@@ -67,7 +87,7 @@ class _MainPageState extends State<MainPage>
                           style: TextStyle(
                               fontSize: 18.0,
                               fontFamily: "Poppins-Medium",
-                              color: Colors.black),
+                              color: _isElegance ? lightColor : Colors.black),
                           textAlign: TextAlign.center,
                         ),
                         ClipRRect(
@@ -76,7 +96,9 @@ class _MainPageState extends State<MainPage>
                             shadowColor: Colors.transparent,
                             color: Colors.transparent,
                             child: IconButton(
-                              icon: Icon(Icons.search, color: Colors.black),
+                              icon: Icon(Icons.search,
+                                  color:
+                                      _isElegance ? lightColor : Colors.black),
                               onPressed: () => {},
                             ),
                           ),
@@ -90,7 +112,7 @@ class _MainPageState extends State<MainPage>
                           bottomLeft: Radius.circular(20.0),
                           bottomRight: Radius.circular(20.0),
                         ),
-                        color: Colors.white,
+                        color: _isElegance ? darkColor : Colors.white,
                         boxShadow: <BoxShadow>[
                           BoxShadow(
                               color: Colors.black12,
@@ -99,19 +121,23 @@ class _MainPageState extends State<MainPage>
                         ]),
                     padding: EdgeInsets.only(bottom: 5, top: 5),
                   ),
-                  Container(
-                    margin: EdgeInsets.all(20),
-                    child: ColorFiltered(
-                      colorFilter: ColorFilter.mode(
-                          Color(0xFFC42036).withOpacity(0.2),
-                          BlendMode.dstATop),
-                      child: Image.asset(
-                        'assets/images/line-shopping-cart.png',
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-
+                  _isElegance
+                      ? Container(
+                          height: 200,
+                        )
+                      : Container(
+                          margin: EdgeInsets.all(20),
+                          child: ColorFiltered(
+                            colorFilter: ColorFilter.mode(
+                                (_isElegance ? lightColor : Color(0xFFC42036))
+                                    .withOpacity(0.2),
+                                BlendMode.dstATop),
+                            child: Image.asset(
+                              'assets/images/line-shopping-cart.png',
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
                   Container(
                       margin: EdgeInsets.only(bottom: 10, right: 20),
                       alignment: Alignment.bottomRight,
@@ -125,11 +151,13 @@ class _MainPageState extends State<MainPage>
                                 style: TextStyle(
                                   fontSize: 16.0,
                                   fontFamily: "Poppins-SemiBold",
-                                  color: Colors.white,
+                                  color: _isElegance ? darkColor : Colors.white,
                                   shadows: [
                                     Shadow(
                                       blurRadius: 20.0,
-                                      color: Colors.black,
+                                      color: _isElegance
+                                          ? lightColor
+                                          : Colors.black,
                                       offset: Offset(0.0, 0.0),
                                     ),
                                   ],
@@ -140,11 +168,15 @@ class _MainPageState extends State<MainPage>
                                     style: TextStyle(
                                       fontSize: 16.0,
                                       fontFamily: "Poppins-Medium",
-                                      color: Colors.white,
+                                      color: _isElegance
+                                          ? darkColor
+                                          : Colors.white,
                                       shadows: [
                                         Shadow(
                                           blurRadius: 20.0,
-                                          color: Colors.black,
+                                          color: _isElegance
+                                              ? lightColor
+                                              : Colors.black,
                                           offset: Offset(0.0, 0.0),
                                         ),
                                       ],
@@ -179,7 +211,9 @@ class _MainPageState extends State<MainPage>
                             shadowColor: Colors.transparent,
                             color: Colors.transparent,
                             child: IconButton(
-                              icon: Icon(Icons.menu, color: Colors.black),
+                              icon: Icon(Icons.menu,
+                                  color:
+                                      _isElegance ? lightColor : Colors.black),
                               onPressed: widget.onMenuPressed,
                             ),
                           ),
@@ -189,7 +223,7 @@ class _MainPageState extends State<MainPage>
                           style: TextStyle(
                               fontSize: 18.0,
                               fontFamily: "Poppins-Medium",
-                              color: Colors.black),
+                              color: _isElegance ? lightColor : Colors.black),
                           textAlign: TextAlign.center,
                         ),
                         ClipRRect(
@@ -198,7 +232,9 @@ class _MainPageState extends State<MainPage>
                             shadowColor: Colors.transparent,
                             color: Colors.transparent,
                             child: IconButton(
-                              icon: Icon(Icons.search, color: Colors.black),
+                              icon: Icon(Icons.search,
+                                  color:
+                                      _isElegance ? lightColor : Colors.black),
                               onPressed: () => {},
                             ),
                           ),
@@ -212,27 +248,29 @@ class _MainPageState extends State<MainPage>
                           bottomLeft: Radius.circular(20.0),
                           bottomRight: Radius.circular(20.0),
                         ),
-                        color: Colors.white,
+                        color: _isElegance ? darkColor : Colors.white,
                         boxShadow: <BoxShadow>[
                           BoxShadow(
-                              color: Colors.black12,
+                              color: _isElegance ? lightColor : Colors.black12,
                               blurRadius: 15.0,
                               offset: Offset(7.0, 7.0))
                         ]),
                     padding: EdgeInsets.only(bottom: 5, top: 5),
                   ),
-                  Container(
-                    margin: EdgeInsets.all(20),
-                    child: ColorFiltered(
-                      colorFilter: ColorFilter.mode(
-                          Color(0xFFC42036).withOpacity(0.2),
-                          BlendMode.dstATop),
-                      child: Image.asset(
-                        'assets/images/line-truck.png',
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
+                  _isElegance
+                      ? Container()
+                      : Container(
+                          margin: EdgeInsets.all(20),
+                          child: ColorFiltered(
+                            colorFilter: ColorFilter.mode(
+                                Color(0xFFC42036).withOpacity(0.2),
+                                BlendMode.dstATop),
+                            child: Image.asset(
+                              'assets/images/line-truck.png',
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
                 ],
               ),
             ),
@@ -254,7 +292,9 @@ class _MainPageState extends State<MainPage>
                             shadowColor: Colors.transparent,
                             color: Colors.transparent,
                             child: IconButton(
-                              icon: Icon(Icons.menu, color: Colors.black),
+                              icon: Icon(Icons.menu,
+                                  color:
+                                      _isElegance ? lightColor : Colors.black),
                               onPressed: widget.onMenuPressed,
                             ),
                           ),
@@ -264,7 +304,7 @@ class _MainPageState extends State<MainPage>
                           style: TextStyle(
                               fontSize: 18.0,
                               fontFamily: "Poppins-Medium",
-                              color: Colors.black),
+                              color: _isElegance ? lightColor : Colors.black),
                           textAlign: TextAlign.center,
                         ),
                         ClipRRect(
@@ -273,7 +313,9 @@ class _MainPageState extends State<MainPage>
                             shadowColor: Colors.transparent,
                             color: Colors.transparent,
                             child: IconButton(
-                              icon: Icon(Icons.search, color: Colors.black),
+                              icon: Icon(Icons.search,
+                                  color:
+                                      _isElegance ? lightColor : Colors.black),
                               onPressed: () => {},
                             ),
                           ),
@@ -287,32 +329,33 @@ class _MainPageState extends State<MainPage>
                           bottomLeft: Radius.circular(20.0),
                           bottomRight: Radius.circular(20.0),
                         ),
-                        color: Colors.white,
+                        color: _isElegance ? darkColor : Colors.white,
                         boxShadow: <BoxShadow>[
                           BoxShadow(
-                              color: Colors.black12,
+                              color: _isElegance ? lightColor : Colors.black12,
                               blurRadius: 15.0,
                               offset: Offset(7.0, 7.0))
                         ]),
                     padding: EdgeInsets.only(bottom: 5, top: 5),
                   ),
-                  Container(
-                    margin: EdgeInsets.all(20),
-                    child: ColorFiltered(
-                      colorFilter: ColorFilter.mode(
-                          Color(0xFFC42036).withOpacity(0.2),
-                          BlendMode.dstATop),
-                      child: Image.asset(
-                        'assets/images/online-store.png',
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
+                  _isElegance
+                      ? Container()
+                      : Container(
+                          margin: EdgeInsets.all(20),
+                          child: ColorFiltered(
+                            colorFilter: ColorFilter.mode(
+                                Color(0xFFC42036).withOpacity(0.2),
+                                BlendMode.dstATop),
+                            child: Image.asset(
+                              'assets/images/online-store.png',
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
                 ],
               ),
             ),
           ),
-
           HeaderAppBar(),
         ],
       ),
@@ -331,7 +374,9 @@ class _MainPageState extends State<MainPage>
                             shadowColor: Colors.transparent,
                             color: Colors.transparent,
                             child: IconButton(
-                              icon: Icon(Icons.menu, color: Colors.black),
+                              icon: Icon(Icons.menu,
+                                  color:
+                                      _isElegance ? lightColor : Colors.black),
                               onPressed: widget.onMenuPressed,
                             ),
                           ),
@@ -341,7 +386,7 @@ class _MainPageState extends State<MainPage>
                           style: TextStyle(
                               fontSize: 18.0,
                               fontFamily: "Poppins-Medium",
-                              color: Colors.black),
+                              color: _isElegance ? lightColor : Colors.black),
                           textAlign: TextAlign.center,
                         ),
                         ClipRRect(
@@ -350,7 +395,9 @@ class _MainPageState extends State<MainPage>
                             shadowColor: Colors.transparent,
                             color: Colors.transparent,
                             child: IconButton(
-                              icon: Icon(Icons.search, color: Colors.black),
+                              icon: Icon(Icons.search,
+                                  color:
+                                      _isElegance ? lightColor : Colors.black),
                               onPressed: () => {},
                             ),
                           ),
@@ -364,7 +411,7 @@ class _MainPageState extends State<MainPage>
                           bottomLeft: Radius.circular(20.0),
                           bottomRight: Radius.circular(20.0),
                         ),
-                        color: Colors.white,
+                        color: _isElegance ? darkColor : Colors.white,
                         boxShadow: <BoxShadow>[
                           BoxShadow(
                               color: Colors.black12,
@@ -373,18 +420,22 @@ class _MainPageState extends State<MainPage>
                         ]),
                     padding: EdgeInsets.only(bottom: 5, top: 5),
                   ),
-                  Container(
-                    margin: EdgeInsets.all(20),
-                    child: ColorFiltered(
-                      colorFilter: ColorFilter.mode(
-                          Color(0xFFC42036).withOpacity(0.2),
-                          BlendMode.dstATop),
-                      child: Image.asset(
-                        'assets/images/line-list.png',
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
+                  _isElegance
+                      ? Container(
+                          height: 200,
+                        )
+                      : Container(
+                          margin: EdgeInsets.all(20),
+                          child: ColorFiltered(
+                            colorFilter: ColorFilter.mode(
+                                Color(0xFFC42036).withOpacity(0.2),
+                                BlendMode.dstATop),
+                            child: Image.asset(
+                              'assets/images/line-list.png',
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
                 ],
               ),
             ),
@@ -406,7 +457,9 @@ class _MainPageState extends State<MainPage>
                             shadowColor: Colors.transparent,
                             color: Colors.transparent,
                             child: IconButton(
-                              icon: Icon(Icons.menu, color: Colors.black),
+                              icon: Icon(Icons.menu,
+                                  color:
+                                      _isElegance ? lightColor : Colors.black),
                               onPressed: widget.onMenuPressed,
                             ),
                           ),
@@ -416,7 +469,7 @@ class _MainPageState extends State<MainPage>
                           style: TextStyle(
                               fontSize: 18.0,
                               fontFamily: "Poppins-Medium",
-                              color: Colors.black),
+                              color: _isElegance ? lightColor : Colors.black),
                           textAlign: TextAlign.center,
                         ),
                         ClipRRect(
@@ -425,7 +478,9 @@ class _MainPageState extends State<MainPage>
                             shadowColor: Colors.transparent,
                             color: Colors.transparent,
                             child: IconButton(
-                              icon: Icon(Icons.add, color: Colors.black),
+                              icon: Icon(Icons.add,
+                                  color:
+                                      _isElegance ? lightColor : Colors.black),
                               onPressed: () {
                                 /*Navigator.of(context).push(
                                   MaterialPageRoute(builder: (context) {
@@ -449,7 +504,7 @@ class _MainPageState extends State<MainPage>
                           bottomLeft: Radius.circular(20.0),
                           bottomRight: Radius.circular(20.0),
                         ),
-                        color: Colors.white,
+                        color: _isElegance ? darkColor : Colors.white,
                         boxShadow: <BoxShadow>[
                           BoxShadow(
                               color: Colors.black12,
@@ -458,19 +513,23 @@ class _MainPageState extends State<MainPage>
                         ]),
                     padding: EdgeInsets.only(bottom: 5, top: 5),
                   ),
-                  Container(
-                    margin: EdgeInsets.only(
-                        top: 20, left: 20, right: 20, bottom: 0),
-                    child: ColorFiltered(
-                      colorFilter: ColorFilter.mode(
-                          Color(0xFFC42036).withOpacity(0.2),
-                          BlendMode.dstATop),
-                      child: Image.asset(
-                        'assets/images/line-credit.png',
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
+                  _isElegance
+                      ? Container(
+                          height: 300,
+                        )
+                      : Container(
+                          margin: EdgeInsets.only(
+                              top: 20, left: 20, right: 20, bottom: 0),
+                          child: ColorFiltered(
+                            colorFilter: ColorFilter.mode(
+                                Color(0xFFC42036).withOpacity(0.2),
+                                BlendMode.dstATop),
+                            child: Image.asset(
+                              'assets/images/line-credit.png',
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
                   CardList(),
                   /*ClipRRect(
                     borderRadius: BorderRadius.all(Radius.circular(32.0)),
@@ -498,41 +557,69 @@ class _MainPageState extends State<MainPage>
         ],
       ),
     ];
-
-    return Scaffold(
-        backgroundColor: Color(0xFFC42036),
-        bottomNavigationBar: CurvedNavigationBar(
-          key: _bottomNavigationKey,
-          backgroundColor: Color(0xFFC42036),
-          color: Colors.white,
-          buttonBackgroundColor: Colors.white,
-          height: 50,
-          items: <Widget>[
-            Icon(Icons.add_shopping_cart, size: 20, color: Colors.black),
-            Icon(Icons.settings_ethernet, size: 20, color: Colors.black),
-            Icon(Icons.home, size: 20, color: Colors.black),
-            Icon(Icons.list, size: 20, color: Colors.black),
-            Icon(Icons.compare_arrows, size: 20, color: Colors.black),
-          ],
-          animationDuration: Duration(milliseconds: 200),
-          index: 2,
-          animationCurve: Curves.bounceInOut,
-          onTap: (index) {
-            setState(() {
-              _page = index;
-            });
-          },
-        ),
-        body: Container(
-          color: Color(0xFFC42036),
-          child: Center(
-            child: Column(
-              children: <Widget>[
-                pages[_page],
-              ],
-            ),
-          ),
-        ));
+    return Center(
+        child: FutureBuilder<bool>(
+            future: _theme,
+            builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+              switch (snapshot.connectionState) {
+                case ConnectionState.waiting:
+                  return CircularProgressIndicator(
+                      valueColor:
+                          new AlwaysStoppedAnimation<Color>(Colors.white));
+                default:
+                  if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else {
+                    return Scaffold(
+                        backgroundColor:
+                            _isElegance ? lightColor : Color(0xFFC42036),
+                        bottomNavigationBar: CurvedNavigationBar(
+                          key: _bottomNavigationKey,
+                          backgroundColor:
+                              _isElegance ? lightColor : Color(0xFFC42036),
+                          color: _isElegance ? darkColor : Colors.white,
+                          buttonBackgroundColor:
+                              _isElegance ? darkColor : Colors.white,
+                          height: 50,
+                          items: <Widget>[
+                            Icon(Icons.add_shopping_cart,
+                                size: 20,
+                                color: _isElegance ? lightColor : Colors.black),
+                            Icon(Icons.settings_ethernet,
+                                size: 20,
+                                color: _isElegance ? lightColor : Colors.black),
+                            Icon(Icons.home,
+                                size: 20,
+                                color: _isElegance ? lightColor : Colors.black),
+                            Icon(Icons.list,
+                                size: 20,
+                                color: _isElegance ? lightColor : Colors.black),
+                            Icon(Icons.compare_arrows,
+                                size: 20,
+                                color: _isElegance ? lightColor : Colors.black),
+                          ],
+                          animationDuration: Duration(milliseconds: 200),
+                          index: 2,
+                          animationCurve: Curves.bounceInOut,
+                          onTap: (index) {
+                            setState(() {
+                              _page = index;
+                            });
+                          },
+                        ),
+                        body: Container(
+                          color: _isElegance ? lightColor : Color(0xFFC42036),
+                          child: Center(
+                            child: Column(
+                              children: <Widget>[
+                                pages[_page],
+                              ],
+                            ),
+                          ),
+                        ));
+                  }
+              }
+            }));
   }
 
   void _handleOnPressed() {

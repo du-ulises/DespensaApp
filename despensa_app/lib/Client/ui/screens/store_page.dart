@@ -7,6 +7,7 @@ import 'package:despensaapp/Client/services/marker_service.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:despensaapp/Client/model/place.dart';
 
@@ -16,6 +17,24 @@ class StorePage extends KFDrawerContent {
 }
 
 class _StorePageState extends State<StorePage> {
+  bool _isElegance = false;
+  final Color darkColor = Color(0xFF212121);
+  final Color lightColor = Color(0xFFF4F8FF);
+
+  Future<Null> getSharedPrefs() async {
+    SharedPreferences theme = await SharedPreferences.getInstance();
+    bool isElegance = (theme.getBool("Elegance") ?? false);
+    setState(() {
+      _isElegance = isElegance;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getSharedPrefs();
+  }
+
   @override
   Widget build(BuildContext context) {
     final currentPosition = Provider.of<Position>(context);
@@ -34,7 +53,7 @@ class _StorePageState extends State<StorePage> {
     return FutureProvider(
       create: (context) => placesProvider,
       child: Scaffold(
-        backgroundColor: Color(0xFFC42036),
+        backgroundColor: _isElegance ? lightColor : Color(0xFFC42036),
         body: (currentPosition != null)
             ? Consumer<List<Place>>(
                 builder: (_, places, __) {
@@ -57,7 +76,9 @@ class _StorePageState extends State<StorePage> {
                                           color: Colors.transparent,
                                           child: IconButton(
                                             icon: Icon(Icons.menu,
-                                                color: Colors.black),
+                                                color: _isElegance
+                                                    ? lightColor
+                                                    : Colors.black),
                                             onPressed: widget.onMenuPressed,
                                           ),
                                         ),
@@ -67,7 +88,9 @@ class _StorePageState extends State<StorePage> {
                                         style: TextStyle(
                                             fontSize: 18.0,
                                             fontFamily: "Poppins-Medium",
-                                            color: Colors.black),
+                                            color: _isElegance
+                                                ? lightColor
+                                                : Colors.black),
                                         textAlign: TextAlign.center,
                                       ),
                                     ],
@@ -80,7 +103,9 @@ class _StorePageState extends State<StorePage> {
                                         bottomLeft: Radius.circular(20.0),
                                         bottomRight: Radius.circular(20.0),
                                       ),
-                                      color: Colors.white,
+                                      color: _isElegance
+                                          ? darkColor
+                                          : Colors.white,
                                       boxShadow: <BoxShadow>[
                                         BoxShadow(
                                             color: Colors.black12,
@@ -96,7 +121,9 @@ class _StorePageState extends State<StorePage> {
                                   height: 5.0,
                                   child: Container(
                                     decoration: BoxDecoration(
-                                      color: Colors.white,
+                                      color: _isElegance
+                                          ? darkColor
+                                          : Colors.white,
                                     ),
                                   ),
                                 ),
@@ -111,20 +138,23 @@ class _StorePageState extends State<StorePage> {
                                         zoom: 16.0),
                                     zoomGesturesEnabled: true,
                                     markers: Set<Marker>.of(markers),
+                                    //mapType: MapType.satellite,
                                   ),
                                 ),
                                 SizedBox(
                                   height: 5.0,
                                   child: Container(
                                     decoration: BoxDecoration(
-                                      color: Colors.white,
+                                      color: _isElegance
+                                          ? darkColor
+                                          : Colors.white,
                                     ),
                                   ),
                                 ),
                                 Expanded(
                                   child: Container(
                                     decoration: BoxDecoration(
-                                      color: Color(0xFFC42036),
+                                      color: _isElegance ? lightColor : Color(0xFFC42036),
                                     ),
                                     child: ListView.builder(
                                         itemCount: places.length,
@@ -168,8 +198,7 @@ class _StorePageState extends State<StorePage> {
                                                                     Icon(
                                                                         Icons
                                                                             .star,
-                                                                        color: Color(
-                                                                            0xFFC42036)),
+                                                                        color: Color(0xFFC42036)),
                                                                 itemCount: 5,
                                                                 itemSize: 12.0,
                                                                 direction: Axis
@@ -185,17 +214,17 @@ class _StorePageState extends State<StorePage> {
                                                       builder: (context, meters,
                                                           wiget) {
                                                         return (meters != null)
-                                                            ? (meters<1000)
-                                                              ? Text(
-                                                          '${places[index].vicinity} \u00b7 ${(meters).round()} m',
-                                                          style:
-                                                          styleItems,
-                                                        ) :
-                                                        Text(
-                                                          '${places[index].vicinity} \u00b7 ${(meters).round()} m',
-                                                          style:
-                                                          styleItems,
-                                                        )
+                                                            ? (meters < 1000)
+                                                                ? Text(
+                                                                    '${places[index].vicinity} \u00b7 ${(meters).round()} m',
+                                                                    style:
+                                                                        styleItems,
+                                                                  )
+                                                                : Text(
+                                                                    '${places[index].vicinity} \u00b7 ${(meters).round()} m',
+                                                                    style:
+                                                                        styleItems,
+                                                                  )
                                                             : Container();
                                                       },
                                                     )
@@ -203,8 +232,7 @@ class _StorePageState extends State<StorePage> {
                                                 ),
                                                 trailing: IconButton(
                                                   icon: Icon(Icons.directions),
-                                                  color: Theme.of(context)
-                                                      .primaryColor,
+                                                  color: _isElegance ? darkColor : Theme.of(context).primaryColor,
                                                   onPressed: () {
                                                     _launchMapsUrl(
                                                         places[index]
@@ -218,6 +246,8 @@ class _StorePageState extends State<StorePage> {
                                                   },
                                                 ),
                                               ),
+                                              elevation: 0,
+                                              color: _isElegance ? lightColor : Colors.white,
                                             ),
                                           );
                                         }),
