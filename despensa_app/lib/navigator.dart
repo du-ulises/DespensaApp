@@ -1,6 +1,7 @@
 import 'package:kf_drawer/kf_drawer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Client/ui/screens/help_page.dart';
 import 'Client/ui/screens/store_page.dart';
@@ -20,10 +21,29 @@ class Nav extends StatefulWidget {
 
 class _Nav extends State<Nav> {
   KFDrawerController _drawerController;
+  final Color darkColor = Color(0xFF212121);
+  final Color lightColor = Color(0xFFF4F8FF);
+
+  bool _isElegance = false;
+
+  Future<Null> getSharedPrefs() async {
+    SharedPreferences theme = await SharedPreferences.getInstance();
+    bool isElegance = (theme.getBool("Elegance") ?? false);
+    setState(() {
+      _isElegance = isElegance;
+    });
+  }
+
+  void retroit () {
+    setState(() {
+      _isElegance = !_isElegance;
+    });
+  }
 
   @override
   void initState() {
     super.initState();
+    getSharedPrefs();
     _drawerController = KFDrawerController(
       initialPage: ClassBuilder.fromString('MainPage'),
       items: [
@@ -47,7 +67,9 @@ class _Nav extends State<Nav> {
             ),
           ),
           icon: Icon(Icons.settings, size: 20, color: Colors.white),
-          page: SettingsPage(),
+          page: SettingsPage(onPressedTheme: () {
+            retroit();
+          },),
         ),
         KFDrawerItem.initWithPage(
           text: Text(
@@ -101,8 +123,8 @@ class _Nav extends State<Nav> {
             decoration: BoxDecoration(
                 gradient: LinearGradient(
                     colors: [
-                      Color(0xFF2E3748),
-                      Color(0xFF2E3748)
+                      _isElegance ? Colors.black.withOpacity(0.9) : Color(0xFF2E3748),
+                      _isElegance ? Colors.black.withOpacity(0.95) : Color(0xFF2E3748)
                       //Color(0xFFC42036),
                       //Color(0xFF62101B)
                       //Color(0xFFD02427)
@@ -118,21 +140,10 @@ class _Nav extends State<Nav> {
                 width: screenHeight,
                 height: screenHeight,
                 decoration: BoxDecoration(
-                    color: Color.fromRGBO(0, 0, 0, 0.05),
+                    color: _isElegance ? lightColor.withOpacity(0.05) : Color.fromRGBO(0, 0, 0, 0.05),
                     borderRadius: BorderRadius.circular(screenHeight / 2)),
               ),
             ),
-            /*Text(
-        title,
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 30.0,
-          fontFamily: "Lato",
-          fontWeight: FontWeight.bold
-        ),
-      ),*/
-
-            //alignment: Alignment(-0.9, -0.6),
           ),
           KFDrawer(
             //borderRadius: 0.0,
@@ -213,4 +224,7 @@ class _Nav extends State<Nav> {
       ),
     );
   }
+
+
+
 }

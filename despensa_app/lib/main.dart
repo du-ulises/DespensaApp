@@ -16,7 +16,6 @@ import 'utils/class_builder.dart';
 
 import 'package:geolocator/geolocator.dart';
 import 'package:despensaapp/Client/model/place.dart';
-import 'package:despensaapp/Client/ui/screens/search.dart';
 import 'package:despensaapp/Client/services/geolocator_service.dart';
 import 'package:despensaapp/Client/services/places_service.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';

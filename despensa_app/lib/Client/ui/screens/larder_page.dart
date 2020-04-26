@@ -1,6 +1,7 @@
 import 'package:despensaapp/widgets/title_header.dart';
 import 'package:flutter/material.dart';
 import 'package:kf_drawer/kf_drawer.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LarderPage extends KFDrawerContent {
   @override
@@ -8,6 +9,25 @@ class LarderPage extends KFDrawerContent {
 }
 
 class _LarderPageState extends State<LarderPage> {
+  bool _isElegance = false;
+  final Color darkColor =  Color(0xFF212121);
+  final Color lightColor = Color(0xFFF4F8FF);
+
+  Future<Null> getSharedPrefs() async {
+    SharedPreferences theme = await SharedPreferences.getInstance();
+    bool isElegance = (theme.getBool("Elegance") ?? false);
+    setState(() {
+      _isElegance = isElegance;
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getSharedPrefs();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -24,7 +44,7 @@ class _LarderPageState extends State<LarderPage> {
                       shadowColor: Colors.transparent,
                       color: Colors.transparent,
                       child: IconButton(
-                        icon: Icon(Icons.menu, color: Colors.black),
+                        icon: Icon(Icons.menu, color: _isElegance ? lightColor : Colors.black),
                         onPressed: widget.onMenuPressed,
                       ),
                     ),
@@ -34,7 +54,7 @@ class _LarderPageState extends State<LarderPage> {
                     style: TextStyle(
                         fontSize: 18.0,
                         fontFamily: "Poppins-Medium",
-                        color: Colors.black),
+                        color: _isElegance ? lightColor : Colors.black),
                     textAlign: TextAlign.center,
                   ),
                 ],
@@ -46,7 +66,7 @@ class _LarderPageState extends State<LarderPage> {
                     bottomLeft: Radius.circular(20.0),
                     bottomRight: Radius.circular(20.0),
                   ),
-                  color: Colors.white,
+                  color: _isElegance ? darkColor : Colors.white,
                   boxShadow: <BoxShadow>[
                     BoxShadow(
                         color: Colors.black12,

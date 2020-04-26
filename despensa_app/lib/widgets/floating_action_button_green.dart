@@ -4,11 +4,13 @@ class FloatingActionButtonGreen extends StatefulWidget {
 
   final IconData iconData;
   final VoidCallback onPressed;
+  bool isElegance;
 
   FloatingActionButtonGreen({
     Key key,
     @required this.iconData,
-    @required this.onPressed
+    @required this.onPressed,
+    this.isElegance,
   });
 
   @override
@@ -34,11 +36,11 @@ class _FloatingActionButtonGreen extends State<FloatingActionButtonGreen> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return FloatingActionButton(
-      backgroundColor: Color(0xFF11DA53),
+      backgroundColor: widget.isElegance ? Colors.white : Color(0xFF11DA53),
       mini: true,
       tooltip: "Selecciona una foto",
       onPressed: widget.onPressed,
-      child: Icon(widget.iconData),
+      child: Icon(widget.iconData, color: widget.isElegance ? Color(0xFF212121) : Colors.white,),
       heroTag: null,
     );
   }
