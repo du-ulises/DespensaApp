@@ -1,5 +1,6 @@
 import 'package:despensaapp/Client/model/client.dart';
 import 'package:despensaapp/Client/repository/firebase_auth_api.dart';
+import 'package:despensaapp/Product/ui/widgets/card_favorite_image.dart';
 import 'package:despensaapp/widgets/button_outline.dart';
 import 'package:despensaapp/widgets/button_purple.dart';
 import 'package:flutter/material.dart';
@@ -7,10 +8,10 @@ import 'package:despensaapp/Product/model/product.dart';
 import 'package:despensaapp/Product/ui/widgets/card_image.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class CardImageList extends StatefulWidget {
+class CardImageFavoritesList extends StatefulWidget {
   Client user;
 
-  CardImageList(@required this.user);
+  CardImageFavoritesList(@required this.user);
 
   @override
   State<StatefulWidget> createState() {
@@ -19,7 +20,7 @@ class CardImageList extends StatefulWidget {
   }
 }
 
-class _CardImageList extends State<CardImageList> {
+class _CardImageList extends State<CardImageFavoritesList> {
   final FirebaseAuthAPI _userRepository = FirebaseAuthAPI();
   Product selectedProduct = Product(
       id: "",
@@ -133,7 +134,7 @@ class _CardImageList extends State<CardImageList> {
     IconData iconDataLike = Icons.favorite_border;
     return Stack(
       children: <Widget>[
-        Container(
+        /*Container(
           width: MediaQuery.of(context).size.width,
           child: (selectedProduct.id == ""
               ? Column(
@@ -166,19 +167,19 @@ class _CardImageList extends State<CardImageList> {
                     titleStars(selectedProduct),
                   ],
                 )),
-        ),
+        ),*/
         Container(
-          margin:
-              EdgeInsets.only(top: MediaQuery.of(context).size.height - 400),
+          margin: EdgeInsets.only(top: 40),
+          //margin: EdgeInsets.only(top: MediaQuery.of(context).size.height - 400),
           child: Column(
             children: <Widget>[
-              Container(
+              /*Container(
                   margin: EdgeInsets.only(bottom: 10, right: 20),
                   alignment: Alignment.bottomRight,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: <Widget>[
-                      Container(
+                      /*Container(
                         margin: EdgeInsets.only(bottom: 10),
                         child: Text(
                           'Ver catálogo.',
@@ -195,7 +196,7 @@ class _CardImageList extends State<CardImageList> {
                             ],
                           ),
                         ),
-                      ),
+                      ),*/
                       (selectedProduct.id == ""
                           ? Container()
                           : _isElegance
@@ -230,33 +231,98 @@ class _CardImageList extends State<CardImageList> {
                                     setAdded(selectedProduct);
                                   }))
                     ],
-                  )),
+                  )),*/
               Container(
-                  height: 250.0,
+                  height: MediaQuery.of(context).size.height - 130,
                   child: ListView(
                     padding: EdgeInsets.all(25.0),
-                    scrollDirection: Axis.horizontal,
+                    scrollDirection: Axis.vertical,
                     children: products.map((product) {
-                      return GestureDetector(
-                        onTap: () {
-                          print("CLICK PRODUCT: ${product.name}");
-                          setState(() {
-                            selectedProduct = product;
-                          });
-                        },
-                        child: CardImageWithFabIcon(
-                            pathImage: product.urlImage,
-                            width: 300.0,
-                            height: 250.0,
-                            left: 20.0,
-                            iconData:
-                                product.liked ? iconDataLiked : iconDataLike,
-                            onPressedFabIcon: () {
-                              setLiked(product);
-                            },
-                            internet: true,
-                            isElegance: _isElegance),
-                      );
+                      return product.liked
+                          ? Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Container(
+                                  margin:
+                                  EdgeInsets.only(top: 10.0, left: 20.0, right: 20.0, bottom: 5),
+                                  child: Text(
+                                    product.name + ".",
+                                    style: TextStyle(
+                                      fontFamily: "Poppins-Bold",
+                                      color: _isElegance ? darkColor : Colors.white,
+                                      fontSize: 18.0,
+                                      shadows: [
+                                        Shadow(
+                                          blurRadius: 20.0,
+                                          color: _isElegance ? lightColor : Colors.black,
+                                          offset: Offset(0.0, 0.0),
+                                        ),
+                                      ],
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    print("CLICK PRODUCT: ${product.name}");
+                                    setState(() {
+                                      selectedProduct = product;
+                                    });
+                                  },
+                                  child: CardImageWithFabIconFab(
+                                      pathImage: product.urlImage,
+                                      width: 280.0,
+                                      height: 185.0,
+                                      left: 0.0,
+                                      bottom: 10.0,
+                                      iconData: product.liked
+                                          ? iconDataLiked
+                                          : iconDataLike,
+                                      onPressedFabIcon: () {
+                                        setLiked(product);
+                                      },
+                                      internet: true,
+                                      isElegance: _isElegance),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(bottom: 15),
+                                  child: _isElegance
+                                      ? ButtonOutline(
+                                      buttonText: product.added
+                                          ? "Añadido"
+                                          : "Añadir al carrito.",
+                                      iconText: product.added
+                                          ? Icon(Icons.shopping_cart,
+                                          color: Color(0xFFffffff))
+                                          : Icon(Icons.add_shopping_cart,
+                                          color: Color(0xFFffffff)),
+                                      widthButton: 200.0,
+                                      onPressed: () {
+                                        print("PREPARE ADD TO CART");
+                                        print(product.name);
+                                        setAdded(product);
+                                      })
+                                      : ButtonPurple(
+                                      buttonText: product.added
+                                          ? "Añadido"
+                                          : "Añadir al carrito.",
+                                      iconText: product.added
+                                          ? Icon(Icons.shopping_cart,
+                                          color: Colors.white)
+                                          : Icon(Icons.add_shopping_cart,
+                                          color: Colors.white),
+                                      widthButton: 200.0,
+                                      onPressed: () {
+                                        print("PREPARE ADD TO CART");
+                                        print(product.name);
+                                        setAdded(product);
+                                      }),
+                                ),
+                                _isElegance ? Divider() : Divider(color: Colors.white),
+                              ],
+                            )
+                          : Container();
                     }).toList(),
                   ))
             ],

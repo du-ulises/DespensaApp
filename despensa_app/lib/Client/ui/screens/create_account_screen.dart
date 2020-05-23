@@ -14,6 +14,7 @@ import 'package:despensaapp/widgets/gradient_back.dart';
 import 'package:despensaapp/widgets/title_header.dart';
 import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart';
 import 'package:image_picker_modern/image_picker_modern.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 const String MIN_DATETIME = '1920-01-01';
 const String MAX_DATETIME = '2021-11-25';
@@ -62,6 +63,15 @@ class _CreateAccountScreen extends State<CreateAccountScreen> {
 
   DateTime _dateTime;
 
+  bool _isElegance = false;
+
+  Future<Null> getSharedPrefs() async {
+    SharedPreferences theme = await SharedPreferences.getInstance();
+    bool isElegance = (theme.getBool("Elegance") ?? false);
+    setState(() {
+      _isElegance = isElegance;
+    });
+  }
 
   @override
   void initState() {
@@ -73,6 +83,7 @@ class _CreateAccountScreen extends State<CreateAccountScreen> {
     _lastNameController.addListener(_onLastNameChanged);
     _formatCtrl.text = _format;
     _dateTime = DateTime.parse(INIT_DATETIME);
+    getSharedPrefs();
   }
 
   @override
@@ -183,7 +194,8 @@ class _CreateAccountScreen extends State<CreateAccountScreen> {
                                 ),
                                 FloatingActionButtonGreen(
                                     iconData: Icons.add_photo_alternate,
-                                    onPressed: getImage
+                                    onPressed: getImage,
+                                    isElegance: _isElegance
                                 ),
                               ],
                             )

@@ -7,6 +7,7 @@ class Product {
   String urlImage;
   int likes;
   bool liked;
+  bool added;
   double price;
   bool isBulk;
   String category;
@@ -19,6 +20,7 @@ class Product {
       @required this.urlImage,
       @required this.likes,
       @required this.liked,
+      @required this.added,
       this.id,
       @required this.price,
       @required this.isBulk,

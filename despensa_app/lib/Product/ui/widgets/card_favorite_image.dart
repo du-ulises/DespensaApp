@@ -2,18 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:despensaapp/widgets/floating_action_button_green.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
-class  CardImageWithFabIcon extends StatelessWidget {
+class  CardImageWithFabIconFab extends StatelessWidget {
 
   final double height;
   final double width;
   double left;
+  double bottom;
   final String pathImage;
   final VoidCallback onPressedFabIcon;
   final IconData iconData;
   bool internet = true;
   bool isElegance = false;
 
-  CardImageWithFabIcon({
+  CardImageWithFabIconFab({
     Key key,
     @required this.pathImage,
     @required this.width,
@@ -22,7 +23,8 @@ class  CardImageWithFabIcon extends StatelessWidget {
     @required this.iconData,
     this.isElegance,
     this.internet,
-    this.left
+    this.left,
+    this.bottom
   });
 
   @override
@@ -33,7 +35,8 @@ class  CardImageWithFabIcon extends StatelessWidget {
       height: height,
       width: width,
       margin: EdgeInsets.only(
-          left: left
+          left: left,
+          bottom: bottom
       ),
       decoration: BoxDecoration(
           image: DecorationImage(
@@ -55,7 +58,7 @@ class  CardImageWithFabIcon extends StatelessWidget {
     );
 
     return Stack(
-      alignment: Alignment(0.9,1.1),
+      alignment: Alignment(0.95,1.0),
       children: <Widget>[
         card,
         FloatingActionButtonGreen(iconData: iconData, onPressed: onPressedFabIcon, isElegance: isElegance)

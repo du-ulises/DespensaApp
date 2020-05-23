@@ -1,5 +1,6 @@
 import 'package:despensaapp/Client/ui/widgets/chart.dart';
 import 'package:despensaapp/Client/ui/screens/pages/pay.dart';
+import 'package:despensaapp/Product/ui/screens/favorites_list.dart';
 import 'package:despensaapp/Wallet/ui/card_type.dart';
 import 'package:despensaapp/Wallet/ui/widgets/card_list.dart';
 import 'package:flutter/material.dart';
@@ -366,6 +367,35 @@ class _MainPageState extends State<MainPage>
               child: Column(
                 children: <Widget>[
                   Container(
+                    height: 50,
+                    padding: EdgeInsets.only(bottom: 5, top: 5),
+                  ),
+                  _isElegance
+                      ? Container(
+                    height: 200,
+                  )
+                      : Container(
+                    margin: EdgeInsets.all(20),
+                    child: ColorFiltered(
+                      colorFilter: ColorFilter.mode(
+                          Color(0xFFC42036).withOpacity(0.2),
+                          BlendMode.dstATop),
+                      child: Image.asset(
+                        'assets/images/line-list.png',
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Favorites(),
+          SafeArea(
+            child: Center(
+              child: Column(
+                children: <Widget>[
+                  Container(
                     child: Row(
                       children: <Widget>[
                         ClipRRect(
@@ -420,22 +450,6 @@ class _MainPageState extends State<MainPage>
                         ]),
                     padding: EdgeInsets.only(bottom: 5, top: 5),
                   ),
-                  _isElegance
-                      ? Container(
-                          height: 200,
-                        )
-                      : Container(
-                          margin: EdgeInsets.all(20),
-                          child: ColorFiltered(
-                            colorFilter: ColorFilter.mode(
-                                Color(0xFFC42036).withOpacity(0.2),
-                                BlendMode.dstATop),
-                            child: Image.asset(
-                              'assets/images/line-list.png',
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
                 ],
               ),
             ),

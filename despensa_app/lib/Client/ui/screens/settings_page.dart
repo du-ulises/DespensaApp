@@ -69,7 +69,7 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     final Color activeColor = Color(0xFFC42036);
-    final Color darkColor =  Color(0xFF212121);
+    final Color darkColor = Color(0xFF212121);
     final Color lightColor = Color(0xFFF4F8FF);
 
     final styleItems = TextStyle(
@@ -95,7 +95,8 @@ class _SettingsPageState extends State<SettingsPage> {
                       shadowColor: Colors.transparent,
                       color: Colors.transparent,
                       child: IconButton(
-                        icon: Icon(Icons.menu, color: _isElegance ? lightColor : Colors.black),
+                        icon: Icon(Icons.menu,
+                            color: _isElegance ? lightColor : Colors.black),
                         onPressed: widget.onMenuPressed,
                       ),
                     ),
@@ -117,7 +118,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     bottomLeft: Radius.circular(20.0),
                     bottomRight: Radius.circular(20.0),
                   ),
-                  color: _isElegance ? darkColor :Colors.white,
+                  color: _isElegance ? darkColor : Colors.white,
                   boxShadow: <BoxShadow>[
                     BoxShadow(
                         color: Colors.black12,
@@ -221,7 +222,7 @@ class _SettingsPageState extends State<SettingsPage> {
                           _notifications = value;
                         });
                       },
-                      activeColor: activeColor,
+                      activeColor: _isElegance ? darkColor : activeColor,
                     ),
                     onTap: () {
                       setState(() {
@@ -242,7 +243,7 @@ class _SettingsPageState extends State<SettingsPage> {
                           _localization = value;
                         });
                       },
-                      activeColor: activeColor,
+                      activeColor: _isElegance ? darkColor : activeColor,
                     ),
                     onTap: () {
                       setState(() {
@@ -263,7 +264,7 @@ class _SettingsPageState extends State<SettingsPage> {
                           _limit = value;
                         });
                       },
-                      activeColor: activeColor,
+                      activeColor: _isElegance ? darkColor : activeColor,
                     ),
                     onTap: () {
                       setState(() {
@@ -275,15 +276,14 @@ class _SettingsPageState extends State<SettingsPage> {
                 MergeSemantics(
                   child: ListTile(
                     title: Text('Modo oscuro', style: styleItems),
-                    subtitle: Text(
-                        'Tema oscuro de la aplicación.'),
+                    subtitle: Text('Tema oscuro de la aplicación.'),
                     trailing: CupertinoSwitch(
                       value: _isElegance,
                       onChanged: (bool value) {
                         _themeChanger();
                         widget.onPressedTheme();
                       },
-                      activeColor: activeColor,
+                      activeColor: _isElegance ? darkColor : activeColor,
                     ),
                     onTap: _themeChanger,
                   ),

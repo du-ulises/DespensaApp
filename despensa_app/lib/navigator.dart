@@ -140,7 +140,7 @@ class _Nav extends State<Nav> {
                 width: screenHeight,
                 height: screenHeight,
                 decoration: BoxDecoration(
-                    color: _isElegance ? lightColor.withOpacity(0.05) : Color.fromRGBO(0, 0, 0, 0.05),
+                    color: _isElegance ? lightColor.withOpacity(0.02) : Color.fromRGBO(0, 0, 0, 0.05),
                     borderRadius: BorderRadius.circular(screenHeight / 2)),
               ),
             ),

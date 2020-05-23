@@ -1,8 +1,10 @@
 import 'package:despensaapp/Client/ui/screens/pages/existing-cards.dart';
+import 'package:despensaapp/widgets/button_outline.dart';
 import 'package:despensaapp/widgets/button_purple.dart';
 import 'package:flutter/material.dart';
 import 'package:despensaapp/Client/services/payment-service.dart';
 import 'package:progress_dialog/progress_dialog.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Pay extends StatefulWidget {
   Pay({Key key}) : super(key: key);
@@ -41,24 +43,50 @@ class PayState extends State<Pay> {
     ));
   }
 
+  final Color darkColor = Color(0xFF212121);
+  final Color lightColor = Color(0xFFF4F8FF);
+
+  bool _isElegance = false;
+
+  Future<Null> getSharedPrefs() async {
+    SharedPreferences theme = await SharedPreferences.getInstance();
+    bool isElegance = (theme.getBool("Elegance") ?? false);
+    setState(() {
+      _isElegance = isElegance;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     StripeService.init();
+    getSharedPrefs();
   }
 
   @override
   Widget build(BuildContext context) {
-    return ButtonPurple(
-        buttonText: "Pagar con tarjeta existente.",
-        iconText: Icon(Icons.credit_card, color: Colors.white),
-        widthButton: 300.0,
-        onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) {
-              return ExistingCardsPage();
-            }),
-          );
-        });
+    return _isElegance
+        ? ButtonOutline(
+            buttonText: "Pagar con tarjeta existente.",
+            iconText: Icon(Icons.credit_card, color: Colors.white),
+            widthButton: 300.0,
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) {
+                  return ExistingCardsPage();
+                }),
+              );
+            })
+        : ButtonPurple(
+            buttonText: "Pagar con tarjeta existente.",
+            iconText: Icon(Icons.credit_card, color: Colors.white),
+            widthButton: 300.0,
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) {
+                  return ExistingCardsPage();
+                }),
+              );
+            });
   }
 }

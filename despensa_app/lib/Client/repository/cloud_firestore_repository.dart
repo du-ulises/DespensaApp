@@ -16,5 +16,8 @@ class CloudFirestoreRepository {
   List<Product> buildProducts(List<DocumentSnapshot> productsListSnapshot, Client user) => _cloudFirestoreAPI.buildProducts(productsListSnapshot, user);
 
   Future likeProduct(Product product, String uid) => _cloudFirestoreAPI.likeProduct(product,uid);
+  Future addProduct(Product product, String uid) => _cloudFirestoreAPI.addProduct(product,uid);
 
+  Future addFavorites(Product product, String uid) => _cloudFirestoreAPI.addFavorites(product,uid);
+  Future addCart(Product product, String uid) => _cloudFirestoreAPI.addCart(product,uid);
 }

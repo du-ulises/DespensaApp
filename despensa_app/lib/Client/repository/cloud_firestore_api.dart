@@ -57,21 +57,28 @@ class CloudFirestoreAPI {
 
     productsListSnapshot.forEach((p) {
       Product product = Product(
-          id: p.documentID,
-          name: p.data["name"],
-          description: p.data["description"],
-          urlImage: p.data["urlImage"],
-          likes: p.data["likes"],
-          price: p.data["price"].toDouble(),
-          isBulk: p.data["isBulk"],
-          category: p.data["category"],
-          store: p.data["store"],
+        id: p.documentID,
+        name: p.data["name"],
+        description: p.data["description"],
+        urlImage: p.data["urlImage"],
+        likes: p.data["likes"],
+        price: p.data["price"].toDouble(),
+        isBulk: p.data["isBulk"],
+        category: p.data["category"],
+        store: p.data["store"],
       );
       List usersLikedRefs = p.data["usersLiked"];
       product.liked = false;
       usersLikedRefs?.forEach((drUL) {
         if (user.uid == drUL.documentID) {
           product.liked = true;
+        }
+      });
+      List usersAddedRefs = p.data["usersAdded"];
+      product.added = false;
+      usersAddedRefs?.forEach((drUL) {
+        if (user.uid == drUL.documentID) {
+          product.added = true;
         }
       });
       products.add(product);
@@ -95,4 +102,57 @@ class CloudFirestoreAPI {
       });
     });
   }
+
+  Future addFavorites(Product product, String uid) async {
+    await _db
+        .collection(PRODUCTS)
+        .document(product.id)
+        .get()
+        .then((DocumentSnapshot ds) {
+      print("Added to favorites");
+      print(ds.data);
+
+      _db.collection(CLIENTS).document(uid).updateData({
+        'favorites': product.liked
+            ? FieldValue.arrayUnion([_db.document("${PRODUCTS}/${product.id}")])
+            : FieldValue.arrayRemove(
+                [_db.document("${PRODUCTS}/${product.id}")])
+      });
+    });
+  }
+
+  Future addProduct(Product product, String uid) async {
+    await _db
+        .collection(PRODUCTS)
+        .document(product.id)
+        .get()
+        .then((DocumentSnapshot ds) {
+      _db.collection(PRODUCTS).document(product.id).updateData({
+        'usersAdded': product.added
+            ? FieldValue.arrayUnion([_db.document("${CLIENTS}/${uid}")])
+            : FieldValue.arrayRemove([_db.document("${CLIENTS}/${uid}")])
+      });
+    });
+  }
+
+  Future addCart(Product product, String uid) async {
+    await _db
+        .collection(PRODUCTS)
+        .document(product.id)
+        .get()
+        .then((DocumentSnapshot ds) {
+      print("Added to cart");
+      print(ds.data);
+
+      _db.collection(CLIENTS).document(uid).updateData({
+        'shoppingCart': product.added
+            ? FieldValue.arrayUnion([_db.document("${PRODUCTS}/${product.id}")])
+            : FieldValue.arrayRemove(
+            [_db.document("${PRODUCTS}/${product.id}")])
+      });
+    });
+  }
+
+
+
 }
