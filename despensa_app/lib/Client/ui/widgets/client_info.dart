@@ -9,7 +9,6 @@ class ClientInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final clientPhoto = Container(
       width: 90.0,
       height: 90.0,
@@ -23,7 +22,7 @@ class ClientInfo extends StatelessWidget {
           image: DecorationImage(
               fit: BoxFit.cover,
               //image: AssetImage(user.photoURL)
-              image: NetworkImage(client.photoURL)
+              image: client.photoURL!=null?NetworkImage(client.photoURL):AssetImage("assets/images/circle-outline-red.png")
           )
       ),
     );
@@ -32,7 +31,7 @@ class ClientInfo extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        clientPhoto,
+        client.photoURL!=null ? clientPhoto : CircleAvatar(child: new Text(client.name[0])),
         Container(
             margin: EdgeInsets.only(
                 top: 10.0

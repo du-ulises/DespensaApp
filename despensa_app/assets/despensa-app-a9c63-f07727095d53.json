@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "despensa-app-a9c63",
+  "private_key_id": "f07727095d535067ee62d99433df6623d9e52e63",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCmiH18uAwV2lL2\nzQ3HGEeXhRhXhFOgGpVoJ7q3IbqQlzrwnLaxAZcS8ud9p6TayKI9yl/w8+61yk+J\niaG6/TPoHOLKcyzoxknT0aq+awdZqblVdOxw2W3p+nNtd9g8H7ZzyUErRWsOYb5E\n7EE7GK/f6MK8GJih3HPzE+96lXsA+9V5OPsGqoVseptMpZhtJt1L7nWVf0s9c8ZZ\nD3DwXqO+wH4jFKBB5Bw/He8BupiLHBQzb8a4Q3DKG13sBDVMIdZ4WDJVbTdVeoV3\ndyRuHqYtrvpmFf1X7I2SZh6tyTOydDafmy0et831jkPCwMYHTTPMfej6+Ar2EQCC\nvZJxk+ObAgMBAAECggEAAS2esv7brwflZbObsQM99mzNovOKYpaYOgLAnRe9qdTi\nvjMNo9ZJYFacRqpPTfD0x4/NT/dvLUAU109ETVNfRk7LV/f/+Fb2zMCDVGeOHMHz\npWQiDButsxBqN/sMv5gl1/neM9UrkGV7+CGHxfLtw51yS0G39WU0OM20+F64XmW8\nHaquN4Y660MouiWx4FnhBW/YzFlkUP9jGB1gEfAdVQ0GXYB3H7JSyNMVz0JSNBRt\nza1ZgcLnm67RLDLSSmgaxlTR5/u7wWm3JBjv/ZsC2X7RRzehdmDUFWNJ6c5Trl7U\nrt3lfTYUx3PS8XLmQ8wnFJrYVA3MQd82Z7w2s3zpuQKBgQDnsAV3Hc1T58o5aFZk\nUxUjjaYfkUfT1n0XFLaR2FFnCpwXrloZ1zbfQ2dI76s1gIsoFwSJNpntM7ytH6Oa\n1MdOmqrXSGlVqW0h+ZrKcdWxqzDzrQh/hXBpiqev32H7t1jEhBsfYC+bAmsLO66D\nH7EGlFaK0w6hjZ29iEM1LQDAdQKBgQC4Ai6cRhwTEFUaruOG5QRE4ynW66Jk95lT\nVn3yD6r+lzwYgAxyFTgbaABIY1VvVaxopc/+Iqd4OHVoRyKuCFfaoJ2Uw5kZK+Ji\nrL9ol8xK6b0X0cOvI9qqoNgIPlniBGUIRGe/d7rQvue9zmG9pJKshml5ojqV8as9\nq40UXl6RzwKBgQCODHC9YGtEN0fYPK1DI2FBhBZHInasXcQiA5QQBVWbXHjpV/9r\n+nRtHFFV+YO58M7gzIP+cJidQuw6JLzVMAHmopN+HKpgV9lOTE/oMTT4kmIX9I3S\nSYjrXJSFEutrPjVRf0F10i491pS0tWnAgQyzYP1SbiZ5TG9bBhFWp/nfBQKBgQCb\nMiPz5GILZiwRXE5E2OX34AzK22TVecuU8Y86WSKkphOmqmFU2za+TsJmS3mkdIL8\npFVACCRtjljgAZdrZ1gJ6oveC/cVtuCyzvaFlfpVeLzm2SINltT4Mr7ifQw8R+6a\nwW8rmyUyqME2YlonpCWdY6SUVVLKYtFGK2nLMyjaGwKBgDwQ+ppjy9rm75GLYYlZ\nJYQi/QDUoj6Evgb4uokojPuqU6XLojxR1wmysebUMlgnEanINB6oaBSAbZS0n0GV\nDWCyzpKtkXVO71e4fGBwqd6tmd/uuRjixO+pPiFDeTiKRvi7bkhPttIWEmHE1xrk\nY+58FpXJtNeRwjI7M8CCdITU\n-----END PRIVATE KEY-----\n",
+  "client_email": "dialogflow-ybeknh@despensa-app-a9c63.iam.gserviceaccount.com",
+  "client_id": "101192106837512166401",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/dialogflow-ybeknh%40despensa-app-a9c63.iam.gserviceaccount.com"
+}

@@ -123,8 +123,8 @@ class _Nav extends State<Nav> {
             decoration: BoxDecoration(
                 gradient: LinearGradient(
                     colors: [
-                      _isElegance ? Colors.black.withOpacity(0.9) : Color(0xFF2E3748),
-                      _isElegance ? Colors.black.withOpacity(0.95) : Color(0xFF2E3748)
+                      _isElegance ? Colors.black: Color(0xFF2E3748),
+                      _isElegance ? Colors.black.withOpacity(0.985) : Color(0xFF2E3748)
                       //Color(0xFFC42036),
                       //Color(0xFF62101B)
                       //Color(0xFFD02427)
