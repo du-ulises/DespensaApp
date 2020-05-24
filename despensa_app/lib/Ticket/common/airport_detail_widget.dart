@@ -12,7 +12,7 @@ class AirportDetailWidget extends StatelessWidget {
       children: <Widget>[
         buildDetailColumn("entrega", boarding),
         Spacer(),
-        buildDetailColumn("code", game),
+        buildDetailColumn("#", game),
         Spacer(),
         buildDetailColumn("total", terminal),
       ],

@@ -1,3 +1,4 @@
+import 'package:despensaapp/Ticket/pages/delivery.dart';
 import 'package:flutter/material.dart';
 import 'package:despensaapp/Ticket/common/app_bar.dart';
 import 'package:despensaapp/Ticket/common/ticket_card.dart';
@@ -28,6 +29,7 @@ class PlaneTicketListPage extends StatelessWidget {
             shrinkWrap: true,
             children: <Widget>[
               Hero(tag: ticket.id, child: TicketCardWidget(ticket: ticket)),
+              Order()
             ],
           ),
         ],
