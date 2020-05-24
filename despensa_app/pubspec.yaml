@@ -54,6 +54,7 @@ dependencies:
   cached_network_image: ^2.0.0
   shared_preferences: ^0.5.7
   flutter_dialogflow: ^0.1.3
+  after_layout: ^1.0.7
 
 dev_dependencies:
   flutter_test:
@@ -183,3 +184,5 @@ flutter:
     - assets/images/person.png
     - assets/images/loader.gif
     - assets/images/happy-chatbot.gif
+    - assets/images/corners.png
+    - assets/images/qrcode.png

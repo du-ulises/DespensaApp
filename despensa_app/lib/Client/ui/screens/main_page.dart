@@ -1,6 +1,7 @@
 import 'package:despensaapp/Client/ui/widgets/chart.dart';
 import 'package:despensaapp/Client/ui/screens/pages/pay.dart';
 import 'package:despensaapp/Product/ui/screens/favorites_list.dart';
+import 'package:despensaapp/Ticket/pages/PlaneTicketListPage.dart';
 import 'package:despensaapp/Wallet/ui/card_type.dart';
 import 'package:despensaapp/Wallet/ui/widgets/card_list.dart';
 import 'package:flutter/material.dart';
@@ -276,6 +277,12 @@ class _MainPageState extends State<MainPage>
               ),
             ),
           ),
+          SafeArea(
+            child: Container(
+              margin: EdgeInsets.only(top: 100),
+              child: PlaneTicketListPage(),
+            ),
+          )
         ],
       ),
       Stack(
