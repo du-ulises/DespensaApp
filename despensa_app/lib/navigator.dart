@@ -1,3 +1,4 @@
+import 'package:despensaapp/widgets/wave.dart';
 import 'package:kf_drawer/kf_drawer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -112,6 +113,8 @@ class _Nav extends State<Nav> {
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
+    final size = MediaQuery.of(context).size;
+    final bool keyboardOpen = MediaQuery.of(context).viewInsets.bottom > 0;
     // TODO: implement build
     return Scaffold(
       body: Stack(
@@ -143,6 +146,17 @@ class _Nav extends State<Nav> {
                     color: _isElegance ? lightColor.withOpacity(0.02) : Color.fromRGBO(0, 0, 0, 0.05),
                     borderRadius: BorderRadius.circular(screenHeight / 2)),
               ),
+            ),
+          ),
+
+          AnimatedPositioned(
+            duration: Duration(milliseconds: 500),
+            curve: Curves.easeOutQuad,
+            top: keyboardOpen ? -size.height / 3.7 : 0.0,
+            child: WaveWidget(
+              size: size,
+              yOffset: size.height / 1.02,
+              color: Color(0xFFC42036),
             ),
           ),
           KFDrawer(

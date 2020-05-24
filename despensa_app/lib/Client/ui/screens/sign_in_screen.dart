@@ -7,6 +7,7 @@ import 'package:despensaapp/Client/repository/firebase_auth_api.dart';
 import 'package:despensaapp/Client/ui/widgets/create_account_button.dart';
 import 'package:despensaapp/Client/ui/widgets/google_login_button.dart';
 import 'package:despensaapp/Client/ui/widgets/login_button.dart';
+import 'package:despensaapp/widgets/wave.dart';
 import 'package:flutter/material.dart';
 import 'package:despensaapp/widgets/gradient_back.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -52,6 +53,8 @@ class _SignInSreen extends State<SignInScreen> {
   @override
   Widget build(BuildContext context) {
     screenWidth = MediaQuery.of(context).size.width;
+    final size = MediaQuery.of(context).size;
+    final bool keyboardOpen = MediaQuery.of(context).viewInsets.bottom > 0;
     //clientBloc = BlocProvider.of(context);
     return BlocListener<LoginBloc, LoginState>(
       listener: (context, state) {
@@ -120,6 +123,16 @@ class _SignInSreen extends State<SignInScreen> {
               alignment: Alignment.center,
               children: <Widget>[
                 GradientBack(height: null),
+                AnimatedPositioned(
+                  duration: Duration(milliseconds: 500),
+                  curve: Curves.easeOutQuad,
+                  top: keyboardOpen ? -size.height / 3.7 : 0.0,
+                  child: WaveWidget(
+                    size: size,
+                    yOffset: size.height / 1.05,
+                    color: Color(0xFFC42036),
+                  ),
+                ),
                 Row(
                   children: <Widget>[
                     Container(
