@@ -9,8 +9,13 @@ import 'package:flutter/material.dart';
 import 'package:kf_drawer/kf_drawer.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:jiffy/jiffy.dart';
+
 import 'package:despensaapp/Product/ui/screens/products_list.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wiredash/wiredash.dart';
 
 class MainPage extends KFDrawerContent {
   MainPage({
@@ -40,6 +45,34 @@ class _MainPageState extends State<MainPage>
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   Future<bool> _theme;
 
+  String nameClient = "";
+  String emailClient = "";
+  Future getClient() async {
+    final String CLIENTS = "clients";
+    final Firestore _db = Firestore.instance;
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+    final uid = await _auth.currentUser().then((FirebaseUser user) {
+      return user.uid;
+    });
+
+    QuerySnapshot qn = await _db
+        .collection(CLIENTS)
+        .where("uid", isEqualTo: uid)
+        .getDocuments();
+
+    var clientInfo = [];
+    clientInfo.add(qn.documents);
+
+    await Jiffy.locale('es');
+    for (var snapshotClient in clientInfo) {
+      print("getClient");
+      print(snapshotClient[0].data["name"]);
+      setState(() {
+        nameClient = snapshotClient[0].data["name"];
+        emailClient = snapshotClient[0].data["email"];
+      });
+    }
+  }
   @override
   void initState() {
     super.initState();
@@ -49,6 +82,7 @@ class _MainPageState extends State<MainPage>
     getSharedPrefs();
     _animationController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 300));
+    getClient();
   }
 
   @override
@@ -99,10 +133,14 @@ class _MainPageState extends State<MainPage>
                             shadowColor: Colors.transparent,
                             color: Colors.transparent,
                             child: IconButton(
-                              icon: Icon(Icons.search,
-                                  color:
-                                      _isElegance ? lightColor : Colors.black),
-                              onPressed: () => {},
+                              icon: Icon(Icons.settings_cell,
+                                  color: _isElegance
+                                      ? lightColor
+                                      : Colors.black),
+                              onPressed: () => {
+                                Wiredash.of(context).setOptions(userEmail: emailClient, appVersion: "1.0"),
+                                Wiredash.of(context).show()
+                              },
                             ),
                           ),
                         ),
@@ -235,10 +273,14 @@ class _MainPageState extends State<MainPage>
                             shadowColor: Colors.transparent,
                             color: Colors.transparent,
                             child: IconButton(
-                              icon: Icon(Icons.search,
-                                  color:
-                                      _isElegance ? lightColor : Colors.black),
-                              onPressed: () => {},
+                              icon: Icon(Icons.settings_cell,
+                                  color: _isElegance
+                                      ? lightColor
+                                      : Colors.black),
+                              onPressed: () => {
+                                Wiredash.of(context).setOptions(userEmail: emailClient, appVersion: "1.0"),
+                                Wiredash.of(context).show()
+                              },
                             ),
                           ),
                         ),
@@ -262,7 +304,7 @@ class _MainPageState extends State<MainPage>
                   ),
                   _isElegance
                       ? Container()
-                      : Container()/*Container(
+                      : Container() /*Container(
                           margin: EdgeInsets.all(20),
                           child: ColorFiltered(
                             colorFilter: ColorFilter.mode(
@@ -273,7 +315,8 @@ class _MainPageState extends State<MainPage>
                               fit: BoxFit.cover,
                             ),
                           ),
-                        )*/,
+                        )*/
+                  ,
                 ],
               ),
             ),
@@ -324,15 +367,18 @@ class _MainPageState extends State<MainPage>
                         ClipRRect(
                           borderRadius: BorderRadius.all(Radius.circular(32.0)),
                           child: Material(
-                            shadowColor: Colors.transparent,
-                            color: Colors.transparent,
-                            child: IconButton(
-                              icon: Icon(Icons.search,
-                                  color:
-                                      _isElegance ? lightColor : Colors.black),
-                              onPressed: () => {},
-                            ),
-                          ),
+                              shadowColor: Colors.transparent,
+                              color: Colors.transparent,
+                              child: IconButton(
+                                icon: Icon(Icons.settings_cell,
+                                    color: _isElegance
+                                        ? lightColor
+                                        : Colors.black),
+                                onPressed: () => {
+                                  Wiredash.of(context).setOptions(userEmail: emailClient, appVersion: "1.0"),
+                                  Wiredash.of(context).show()
+                                },
+                              )),
                         ),
                       ],
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -385,20 +431,20 @@ class _MainPageState extends State<MainPage>
                   ),
                   _isElegance
                       ? Container(
-                    height: 200,
-                  )
+                          height: 200,
+                        )
                       : Container(
-                    margin: EdgeInsets.all(20),
-                    child: ColorFiltered(
-                      colorFilter: ColorFilter.mode(
-                          Color(0xFFC42036).withOpacity(0.2),
-                          BlendMode.dstATop),
-                      child: Image.asset(
-                        'assets/images/line-list.png',
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
+                          margin: EdgeInsets.all(20),
+                          child: ColorFiltered(
+                            colorFilter: ColorFilter.mode(
+                                Color(0xFFC42036).withOpacity(0.2),
+                                BlendMode.dstATop),
+                            child: Image.asset(
+                              'assets/images/line-list.png',
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
                 ],
               ),
             ),
@@ -438,10 +484,14 @@ class _MainPageState extends State<MainPage>
                             shadowColor: Colors.transparent,
                             color: Colors.transparent,
                             child: IconButton(
-                              icon: Icon(Icons.search,
-                                  color:
-                                      _isElegance ? lightColor : Colors.black),
-                              onPressed: () => {},
+                              icon: Icon(Icons.settings_cell,
+                                  color: _isElegance
+                                      ? lightColor
+                                      : Colors.black),
+                              onPressed: () => {
+                                Wiredash.of(context).setOptions(userEmail: emailClient, appVersion: "1.0"),
+                                Wiredash.of(context).show()
+                              },
                             ),
                           ),
                         ),

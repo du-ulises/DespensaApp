@@ -55,6 +55,7 @@ dependencies:
   shared_preferences: ^0.5.7
   flutter_dialogflow: ^0.1.3
   after_layout: ^1.0.7
+  wiredash: ^0.0.1+1
 
 dev_dependencies:
   flutter_test:
