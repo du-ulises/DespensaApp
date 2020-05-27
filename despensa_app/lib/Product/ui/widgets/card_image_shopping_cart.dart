@@ -1,6 +1,9 @@
 import 'package:despensaapp/Client/model/client.dart';
 import 'package:despensaapp/Client/repository/firebase_auth_api.dart';
+import 'package:despensaapp/Client/ui/screens/pages/pay.dart';
 import 'package:despensaapp/Product/ui/widgets/card_favorite_image.dart';
+import 'package:despensaapp/Product/ui/widgets/card_shopping_cart_image.dart';
+import 'package:despensaapp/Product/ui/widgets/stepper.dart';
 import 'package:despensaapp/widgets/button_outline.dart';
 import 'package:despensaapp/widgets/button_purple.dart';
 import 'package:flutter/material.dart';
@@ -8,10 +11,10 @@ import 'package:despensaapp/Product/model/product.dart';
 import 'package:despensaapp/Product/ui/widgets/card_image.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class CardImageFavoritesList extends StatefulWidget {
+class CardImageShoppingCart extends StatefulWidget {
   Client user;
 
-  CardImageFavoritesList(@required this.user);
+  CardImageShoppingCart(@required this.user);
 
   @override
   State<StatefulWidget> createState() {
@@ -20,7 +23,7 @@ class CardImageFavoritesList extends StatefulWidget {
   }
 }
 
-class _CardImageList extends State<CardImageFavoritesList> {
+class _CardImageList extends State<CardImageShoppingCart> {
   final FirebaseAuthAPI _userRepository = FirebaseAuthAPI();
   Product selectedProduct = Product(
       id: "",
@@ -32,12 +35,15 @@ class _CardImageList extends State<CardImageFavoritesList> {
       price: 0,
       isBulk: false,
       category: "",
-      store: "");
+      store: "",
+      amount: 1);
 
   final Color darkColor = Color(0xFF212121);
   final Color lightColor = Color(0xFFF4F8FF);
 
   bool _isElegance = false;
+
+  double total = 0;
 
   Future<Null> getSharedPrefs() async {
     SharedPreferences theme = await SharedPreferences.getInstance();
@@ -120,26 +126,37 @@ class _CardImageList extends State<CardImageFavoritesList> {
       });
     }
 
-    void setAdded(Product product) {
+    void setAdded(Product product, int value) {
+      bool plus = true;
       setState(() {
-        product.added = !product.added;
-        _userRepository.addProduct(
-            selectedProduct, widget.user.uid, true, true);
-        selectedProduct = product;
+        if (value < 0) {
+          product.added = false;
+        }
+        if (product.amount > value) {
+          plus = false;
+        }
+        product.amount = value;
 
-        _userRepository.addCart(selectedProduct, widget.user.uid);
+        _userRepository.addProduct(product, widget.user.uid, plus, false);
+        selectedProduct = product;
+        if (!product.added) {
+          total = total - product.price;
+        }
+        _userRepository.addCart(product, widget.user.uid);
       });
     }
 
     IconData iconDataLiked = Icons.favorite;
     IconData iconDataLike = Icons.favorite_border;
-
-    List<Product> productsCountLiked = List<Product>();
+    total = 0;
+    List<Product> productsInShoppingCart = List<Product>();
     products.forEach((product) {
-      if (product.liked) {
-        productsCountLiked.add(product);
+      if (product.added) {
+        total = total + (product.price * product.amount);
+        productsInShoppingCart.add(product);
       }
     });
+    print(productsInShoppingCart.length);
 
     return Stack(
       children: <Widget>[
@@ -242,33 +259,80 @@ class _CardImageList extends State<CardImageFavoritesList> {
                     ],
                   )),*/
               Container(
-                  height: MediaQuery.of(context).size.height - 130,
-                  child: productsCountLiked.length != 0
+                  height: MediaQuery.of(context).size.height - 235,
+                  child: productsInShoppingCart.length != 0
                       ? ListView(
-                          padding: EdgeInsets.all(25.0),
+                          padding: EdgeInsets.all(25),
                           scrollDirection: Axis.vertical,
                           children: products.map((product) {
-                            return product.liked
+                            return product.added
                                 ? Column(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceAround,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     children: <Widget>[
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: <Widget>[
+                                          Container(
+                                            margin: EdgeInsets.only(top: 10),
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                print(
+                                                    "CLICK PRODUCT: ${product.name}");
+                                                setState(() {
+                                                  selectedProduct = product;
+                                                });
+                                              },
+                                              child: CardImageCart(
+                                                  pathImage: product.urlImage,
+                                                  width: 120.0,
+                                                  height: 80.0,
+                                                  left: 0.0,
+                                                  bottom: 10.0,
+                                                  iconData: product.liked
+                                                      ? iconDataLiked
+                                                      : iconDataLike,
+                                                  onPressedFabIcon: () {
+                                                    setLiked(product);
+                                                  },
+                                                  internet: true,
+                                                  isElegance: _isElegance),
+                                            ),
+                                          ),
+                                          Container(
+                                            height: 60,
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: StepperTouch(
+                                                initialValue: product.amount,
+                                                onChanged: (int value) {
+                                                  setAdded(product, value);
+                                                },
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
                                       Container(
                                         margin: EdgeInsets.only(
                                             top: 10.0,
                                             left: 20.0,
                                             right: 20.0,
-                                            bottom: 5),
+                                            bottom: 0),
                                         child: Text(
-                                          product.name + ".",
+                                          "\$ ${(product.price * product.amount).toStringAsFixed(2)}" + (product.isBulk ? " / Kg" : ""),
                                           style: TextStyle(
-                                            fontFamily: "Poppins-Bold",
+                                            fontSize: 16.0,
+                                            fontFamily: "Poppins-SemiBold",
                                             color: _isElegance
                                                 ? darkColor
                                                 : Colors.white,
-                                            fontSize: 18.0,
                                             shadows: [
                                               Shadow(
                                                 blurRadius: 20.0,
@@ -282,66 +346,32 @@ class _CardImageList extends State<CardImageFavoritesList> {
                                           textAlign: TextAlign.center,
                                         ),
                                       ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          print(
-                                              "CLICK PRODUCT: ${product.name}");
-                                          setState(() {
-                                            selectedProduct = product;
-                                          });
-                                        },
-                                        child: CardImageWithFabIconFab(
-                                            pathImage: product.urlImage,
-                                            width: 280.0,
-                                            height: 185.0,
-                                            left: 0.0,
-                                            bottom: 10.0,
-                                            iconData: product.liked
-                                                ? iconDataLiked
-                                                : iconDataLike,
-                                            onPressedFabIcon: () {
-                                              setLiked(product);
-                                            },
-                                            internet: true,
-                                            isElegance: _isElegance),
-                                      ),
                                       Container(
-                                        margin: EdgeInsets.only(bottom: 15),
-                                        child: _isElegance
-                                            ? ButtonOutline(
-                                                buttonText: product.added
-                                                    ? "Añadido"
-                                                    : "Añadir al carrito.",
-                                                iconText: product.added
-                                                    ? Icon(Icons.shopping_cart,
-                                                        color:
-                                                            Color(0xFFffffff))
-                                                    : Icon(
-                                                        Icons.add_shopping_cart,
-                                                        color:
-                                                            Color(0xFFffffff)),
-                                                widthButton: 200.0,
-                                                onPressed: () {
-                                                  print("PREPARE ADD TO CART");
-                                                  print(product.name);
-                                                  setAdded(product);
-                                                })
-                                            : ButtonPurple(
-                                                buttonText: product.added
-                                                    ? "Añadido"
-                                                    : "Añadir al carrito.",
-                                                iconText: product.added
-                                                    ? Icon(Icons.shopping_cart,
-                                                        color: Colors.white)
-                                                    : Icon(
-                                                        Icons.add_shopping_cart,
-                                                        color: Colors.white),
-                                                widthButton: 200.0,
-                                                onPressed: () {
-                                                  print("PREPARE ADD TO CART");
-                                                  print(product.name);
-                                                  setAdded(product);
-                                                }),
+                                        margin: EdgeInsets.only(
+                                            top: 0.0,
+                                            left: 20.0,
+                                            right: 20.0,
+                                            bottom: 5),
+                                        child: Text(
+                                          product.name + ".",
+                                          style: TextStyle(
+                                            fontSize: 16.0,
+                                            fontFamily: "Poppins-Medium",
+                                            color: _isElegance
+                                                ? darkColor
+                                                : Colors.white,
+                                            shadows: [
+                                              Shadow(
+                                                blurRadius: 20.0,
+                                                color: _isElegance
+                                                    ? lightColor
+                                                    : Colors.black,
+                                                offset: Offset(0.0, 0.0),
+                                              ),
+                                            ],
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        ),
                                       ),
                                       _isElegance
                                           ? Divider()
@@ -351,50 +381,87 @@ class _CardImageList extends State<CardImageFavoritesList> {
                                 : Container();
                           }).toList(),
                         )
-                      : Container(
-                          margin: EdgeInsets.only(top: 20),
-                          child: Column(
-                            children: <Widget>[
-                              _isElegance
-                                  ? Container(
-                                      margin: EdgeInsets.all(50),
-                                      child: ColorFiltered(
-                                        colorFilter: ColorFilter.mode(
-                                            Color(0xFFF4F8FF).withOpacity(0.2),
-                                            BlendMode.dstATop),
-                                        child: Image.asset(
-                                          'assets/images/cuidado.png',
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    )
-                                  : Container(
-                                      margin: EdgeInsets.all(20),
-                                      child: ColorFiltered(
-                                        colorFilter: ColorFilter.mode(
-                                            Color(0xFFC42036).withOpacity(0.2),
-                                            BlendMode.dstATop),
-                                        child: Image.asset(
-                                          'assets/images/line-list.png',
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    ),
-                              Container(
-                                  margin: EdgeInsets.only(left: 20, right: 20),
-                                  child: Text(
-                                    "Aún no tienes productos marcados como favoritos",
-                                    style: TextStyle(
-                                      fontSize: 16.0,
-                                      fontFamily: "Poppins-SemiBold",
+                      : Column(
+                          children: <Widget>[
+                            Container(
+                              margin: EdgeInsets.all(40),
+                              child: ColorFiltered(
+                                colorFilter: ColorFilter.mode(
+                                    Color(0xFFF4F8FF).withOpacity(0.2),
+                                    BlendMode.dstATop),
+                                child: Image.asset(
+                                  'assets/images/line-shopping-cart.png',
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                            Container(
+                                margin: EdgeInsets.only(left: 20, right: 20),
+                                child: Text(
+                                  "Aún no tienes productos agregados en tu carrito",
+                                  style: TextStyle(
+                                    fontSize: 16.0,
+                                    fontFamily: "Poppins-SemiBold",
+                                    color: _isElegance
+                                        ? Color(0xFF212121)
+                                        : Colors.white,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ))
+                          ],
+                        )),
+              Container(
+                  margin: EdgeInsets.only(bottom: 10, right: 20, top: 10),
+                  alignment: Alignment.bottomRight,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: <Widget>[
+                      Container(
+                        margin: EdgeInsets.only(bottom: 10),
+                        child: RichText(
+                          text: TextSpan(
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              fontFamily: "Poppins-SemiBold",
+                              color: _isElegance ? darkColor : Colors.white,
+                              shadows: [
+                                Shadow(
+                                  blurRadius: 20.0,
+                                  color:
+                                      _isElegance ? lightColor : Colors.black,
+                                  offset: Offset(0.0, 0.0),
+                                ),
+                              ],
+                            ),
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: "Total a Pagar ",
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                  fontFamily: "Poppins-Medium",
+                                  color: _isElegance ? darkColor : Colors.white,
+                                  shadows: [
+                                    Shadow(
+                                      blurRadius: 20.0,
                                       color: _isElegance
-                                          ? Color(0xFF212121)
-                                          : Colors.white,
+                                          ? lightColor
+                                          : Colors.black,
+                                      offset: Offset(0.0, 0.0),
                                     ),
-                                    textAlign: TextAlign.center,
-                                  ))
+                                  ],
+                                ),
+                              ),
+                              TextSpan(text: '\$ ${total.toStringAsFixed(2)}'),
                             ],
-                          )))
+                          ),
+                        ),
+                      ),
+                      Pay(
+                          total: total,
+                          uid: widget.user.uid,
+                          productsInShoppingCart: productsInShoppingCart)
+                    ],
+                  )),
             ],
           ),
         )

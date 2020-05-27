@@ -122,7 +122,8 @@ class _CardImageList extends State<CardImageList> {
     void setAdded(Product product) {
       setState(() {
         product.added = !product.added;
-        _userRepository.addProduct(selectedProduct, widget.user.uid);
+        _userRepository.addProduct(
+            selectedProduct, widget.user.uid, true, true);
         selectedProduct = product;
 
         _userRepository.addCart(selectedProduct, widget.user.uid);
@@ -141,7 +142,7 @@ class _CardImageList extends State<CardImageList> {
                   children: <Widget>[
                     Container(
                       margin: EdgeInsets.only(
-                          top: 118.0, left: 20.0, right: 20.0, bottom: 300),
+                          top: 118.0, left: 20.0, right: 20.0, bottom: 10),
                       child: Text(
                         "Selecciona un producto.",
                         style: TextStyle(
@@ -158,7 +159,27 @@ class _CardImageList extends State<CardImageList> {
                         ),
                         textAlign: TextAlign.center,
                       ),
+                    ),
+                    Container(
+                      height: 200,
+                      child: _isElegance
+                          ? Container(
+                        margin: EdgeInsets.all(10),
+                        child: ColorFiltered(
+                          colorFilter: ColorFilter.mode(
+                              Color(0xFFF4F8FF).withOpacity(0.2),
+                              BlendMode.dstATop),
+                          child: Image.asset(
+                            'assets/images/guarantee.png',
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      )
+                          : Container(
+                        margin: EdgeInsets.all(10),
+                      ),
                     )
+
                   ],
                 )
               : Column(

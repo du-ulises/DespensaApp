@@ -57,7 +57,7 @@ class StripeService {
       return StripeService.getPlatformExceptionErrorResult(err);
     } catch (err) {
       return new StripeTransactionResponse(
-        message: 'Transacción fallida: ${err.toString()}',
+        message: 'Transacción fallida',
         success: false
       );
     }

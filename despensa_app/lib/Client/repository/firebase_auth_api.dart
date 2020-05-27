@@ -141,10 +141,12 @@ class FirebaseAuthAPI {
   Stream<QuerySnapshot> get productsStream => productsListStream;
   List<Product> buildProducts(List<DocumentSnapshot> productsListSnapshot, Client user) => _cloudFirestoreRepository.buildProducts(productsListSnapshot, user);
   Future likePlace(Product product, String uid) => _cloudFirestoreRepository.likeProduct(product,uid);
-  Future addProduct(Product product, String uid) => _cloudFirestoreRepository.addProduct(product,uid);
+  Future addProduct(Product product, String uid, bool plus, bool newP) => _cloudFirestoreRepository.addProduct(product,uid,plus, newP);
 
   Future addFavorites(Product product, String uid) => _cloudFirestoreRepository.addFavorites(product,uid);
   Future addCart(Product product, String uid) => _cloudFirestoreRepository.addCart(product,uid);
+
+  Future clearShoppingCart(String uid, List<Product> products) => _cloudFirestoreRepository.clearShoppingCart(uid, products);
 
   StreamController<Product> productSelectedStreamController =  StreamController<Product>();
   Stream<Product> get productSelectedStream => productSelectedStreamController.stream;

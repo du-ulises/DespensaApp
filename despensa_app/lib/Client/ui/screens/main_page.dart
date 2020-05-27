@@ -1,6 +1,7 @@
 import 'package:despensaapp/Client/ui/widgets/chart.dart';
 import 'package:despensaapp/Client/ui/screens/pages/pay.dart';
 import 'package:despensaapp/Product/ui/screens/favorites_list.dart';
+import 'package:despensaapp/Product/ui/screens/shopping_cart.dart';
 import 'package:despensaapp/Ticket/pages/PlaneTicketListPage.dart';
 import 'package:despensaapp/Ticket/pages/delivery.dart';
 import 'package:despensaapp/Wallet/ui/card_type.dart';
@@ -73,6 +74,7 @@ class _MainPageState extends State<MainPage>
       });
     }
   }
+
   @override
   void initState() {
     super.initState();
@@ -99,6 +101,33 @@ class _MainPageState extends State<MainPage>
     final pages = [
       Stack(
         children: <Widget>[
+          SafeArea(
+            child: Center(
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    height: 50,
+                    padding: EdgeInsets.only(bottom: 5, top: 5),
+                  ),
+                  _isElegance
+                      ? Container()
+                      : Container(
+                          margin: EdgeInsets.all(20),
+                          child: ColorFiltered(
+                            colorFilter: ColorFilter.mode(
+                                Color(0xFFC42036).withOpacity(0.2),
+                                BlendMode.dstATop),
+                            child: Image.asset(
+                              'assets/images/line-shopping-cart.png',
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                ],
+              ),
+            ),
+          ),
+          MyCart(),
           SafeArea(
             child: Center(
               child: Column(
@@ -134,11 +163,11 @@ class _MainPageState extends State<MainPage>
                             color: Colors.transparent,
                             child: IconButton(
                               icon: Icon(Icons.settings_cell,
-                                  color: _isElegance
-                                      ? lightColor
-                                      : Colors.black),
+                                  color:
+                                      _isElegance ? lightColor : Colors.black),
                               onPressed: () => {
-                                Wiredash.of(context).setOptions(userEmail: emailClient, appVersion: "1.0"),
+                                Wiredash.of(context).setOptions(
+                                    userEmail: emailClient, appVersion: "1.0"),
                                 Wiredash.of(context).show()
                               },
                             ),
@@ -162,75 +191,6 @@ class _MainPageState extends State<MainPage>
                         ]),
                     padding: EdgeInsets.only(bottom: 5, top: 5),
                   ),
-                  _isElegance
-                      ? Container(
-                          height: 200,
-                        )
-                      : Container(
-                          margin: EdgeInsets.all(20),
-                          child: ColorFiltered(
-                            colorFilter: ColorFilter.mode(
-                                (_isElegance ? lightColor : Color(0xFFC42036))
-                                    .withOpacity(0.2),
-                                BlendMode.dstATop),
-                            child: Image.asset(
-                              'assets/images/line-shopping-cart.png',
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                  Container(
-                      margin: EdgeInsets.only(bottom: 10, right: 20),
-                      alignment: Alignment.bottomRight,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: <Widget>[
-                          Container(
-                            margin: EdgeInsets.only(bottom: 10),
-                            child: RichText(
-                              text: TextSpan(
-                                style: TextStyle(
-                                  fontSize: 16.0,
-                                  fontFamily: "Poppins-SemiBold",
-                                  color: _isElegance ? darkColor : Colors.white,
-                                  shadows: [
-                                    Shadow(
-                                      blurRadius: 20.0,
-                                      color: _isElegance
-                                          ? lightColor
-                                          : Colors.black,
-                                      offset: Offset(0.0, 0.0),
-                                    ),
-                                  ],
-                                ),
-                                children: <TextSpan>[
-                                  TextSpan(
-                                    text: "Total a Pagar ",
-                                    style: TextStyle(
-                                      fontSize: 16.0,
-                                      fontFamily: "Poppins-Medium",
-                                      color: _isElegance
-                                          ? darkColor
-                                          : Colors.white,
-                                      shadows: [
-                                        Shadow(
-                                          blurRadius: 20.0,
-                                          color: _isElegance
-                                              ? lightColor
-                                              : Colors.black,
-                                          offset: Offset(0.0, 0.0),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  TextSpan(text: '\$ 750.00'),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Pay()
-                        ],
-                      )),
                 ],
               ),
             ),
@@ -274,11 +234,11 @@ class _MainPageState extends State<MainPage>
                             color: Colors.transparent,
                             child: IconButton(
                               icon: Icon(Icons.settings_cell,
-                                  color: _isElegance
-                                      ? lightColor
-                                      : Colors.black),
+                                  color:
+                                      _isElegance ? lightColor : Colors.black),
                               onPressed: () => {
-                                Wiredash.of(context).setOptions(userEmail: emailClient, appVersion: "1.0"),
+                                Wiredash.of(context).setOptions(
+                                    userEmail: emailClient, appVersion: "1.0"),
                                 Wiredash.of(context).show()
                               },
                             ),
@@ -375,7 +335,9 @@ class _MainPageState extends State<MainPage>
                                         ? lightColor
                                         : Colors.black),
                                 onPressed: () => {
-                                  Wiredash.of(context).setOptions(userEmail: emailClient, appVersion: "1.0"),
+                                  Wiredash.of(context).setOptions(
+                                      userEmail: emailClient,
+                                      appVersion: "1.0"),
                                   Wiredash.of(context).show()
                                 },
                               )),
@@ -429,22 +391,7 @@ class _MainPageState extends State<MainPage>
                     height: 50,
                     padding: EdgeInsets.only(bottom: 5, top: 5),
                   ),
-                  _isElegance
-                      ? Container(
-                          height: 200,
-                        )
-                      : Container(
-                          margin: EdgeInsets.all(20),
-                          child: ColorFiltered(
-                            colorFilter: ColorFilter.mode(
-                                Color(0xFFC42036).withOpacity(0.2),
-                                BlendMode.dstATop),
-                            child: Image.asset(
-                              'assets/images/line-list.png',
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
+
                 ],
               ),
             ),
@@ -485,11 +432,11 @@ class _MainPageState extends State<MainPage>
                             color: Colors.transparent,
                             child: IconButton(
                               icon: Icon(Icons.settings_cell,
-                                  color: _isElegance
-                                      ? lightColor
-                                      : Colors.black),
+                                  color:
+                                      _isElegance ? lightColor : Colors.black),
                               onPressed: () => {
-                                Wiredash.of(context).setOptions(userEmail: emailClient, appVersion: "1.0"),
+                                Wiredash.of(context).setOptions(
+                                    userEmail: emailClient, appVersion: "1.0"),
                                 Wiredash.of(context).show()
                               },
                             ),

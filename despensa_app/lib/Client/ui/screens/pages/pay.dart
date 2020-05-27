@@ -1,4 +1,5 @@
 import 'package:despensaapp/Client/ui/screens/pages/existing-cards.dart';
+import 'package:despensaapp/Product/model/product.dart';
 import 'package:despensaapp/widgets/button_outline.dart';
 import 'package:despensaapp/widgets/button_purple.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +8,10 @@ import 'package:progress_dialog/progress_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Pay extends StatefulWidget {
-  Pay({Key key}) : super(key: key);
+  double total;
+  String uid;
+  List<Product> productsInShoppingCart;
+  Pay({Key key, this.total, this.uid, this.productsInShoppingCart}) : super(key: key);
 
   @override
   PayState createState() => PayState();
@@ -34,7 +38,7 @@ class PayState extends State<Pay> {
     dialog.style(message: 'Por favor espera...');
     await dialog.show();
     var response =
-        await StripeService.payWithNewCard(amount: '750', currency: 'MXN');
+        await StripeService.payWithNewCard(amount: widget.total.toString(), currency: 'MXN');
     await dialog.hide();
     Scaffold.of(context).showSnackBar(SnackBar(
       content: Text(response.message),
@@ -73,7 +77,7 @@ class PayState extends State<Pay> {
             onPressed: () {
               Navigator.of(context).push(
                 MaterialPageRoute(builder: (context) {
-                  return ExistingCardsPage();
+                  return ExistingCardsPage(total: widget.total, uid: widget.uid, productsInShoppingCart:  widget.productsInShoppingCart);
                 }),
               );
             })
@@ -84,7 +88,7 @@ class PayState extends State<Pay> {
             onPressed: () {
               Navigator.of(context).push(
                 MaterialPageRoute(builder: (context) {
-                  return ExistingCardsPage();
+                  return ExistingCardsPage(total: widget.total, uid: widget.uid, productsInShoppingCart:  widget.productsInShoppingCart);
                 }),
               );
             });

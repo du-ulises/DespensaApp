@@ -1,3 +1,5 @@
+import 'package:despensaapp/Client/repository/firebase_auth_api.dart';
+import 'package:despensaapp/Product/model/product.dart';
 import 'package:despensaapp/Wallet/ui/widgets/card/chip.dart';
 import 'package:despensaapp/Wallet/ui/widgets/card/last_number.dart';
 import 'package:despensaapp/Wallet/ui/widgets/card/logo.dart';
@@ -16,13 +18,17 @@ import 'package:despensaapp/Wallet/models/card_model.dart';
 import 'package:despensaapp/Wallet/blocs/card_list_bloc.dart';
 
 class ExistingCardsPage extends StatefulWidget {
-  ExistingCardsPage({Key key}) : super(key: key);
+  double total;
+  String uid;
+  List<Product> productsInShoppingCart;
+  ExistingCardsPage({Key key, this.total, this.uid, this.productsInShoppingCart}) : super(key: key);
 
-  @override
+
   ExistingCardsPageState createState() => ExistingCardsPageState();
 }
 
 class ExistingCardsPageState extends State<ExistingCardsPage> {
+  final FirebaseAuthAPI _userRepository = FirebaseAuthAPI();
   bool _isElegance = false;
   final Color darkColor =  Color(0xFF212121);
   final Color lightColor = Color(0xFFF4F8FF);
@@ -69,8 +75,14 @@ class ExistingCardsPageState extends State<ExistingCardsPage> {
       expMonth: int.parse(expiryArr[0]),
       expYear: int.parse(expiryArr[1]),
     );
+    var totalAmount = ((widget.total*100).toInt()).toString();
+    print("TOTAL AMOUNT: "+totalAmount);
     var response = await StripeService.payViaExistingCard(
-        amount: '100', currency: 'USD', card: stripeCard);
+        amount: totalAmount, currency: 'MXN', card: stripeCard);
+    print(response.success);
+    if(response.success){
+      _userRepository.clearShoppingCart(widget.uid, widget.productsInShoppingCart);
+    }
     await dialog.hide();
     Scaffold.of(context)
         .showSnackBar(SnackBar(

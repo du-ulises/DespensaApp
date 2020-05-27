@@ -77,8 +77,9 @@ class CloudFirestoreAPI {
       List usersAddedRefs = p.data["usersAdded"];
       product.added = false;
       usersAddedRefs?.forEach((drUL) {
-        if (user.uid == drUL.documentID) {
+        if (user.uid == drUL["userReference"].documentID) {
           product.added = true;
+          product.amount = drUL["amount"];
         }
       });
       products.add(product);
@@ -121,17 +122,61 @@ class CloudFirestoreAPI {
     });
   }
 
-  Future addProduct(Product product, String uid) async {
+  Future addProduct(Product product, String uid, bool plus, bool newP) async {
+    print(product.amount);
     await _db
         .collection(PRODUCTS)
         .document(product.id)
         .get()
         .then((DocumentSnapshot ds) {
-      _db.collection(PRODUCTS).document(product.id).updateData({
-        'usersAdded': product.added
-            ? FieldValue.arrayUnion([_db.document("${CLIENTS}/${uid}")])
-            : FieldValue.arrayRemove([_db.document("${CLIENTS}/${uid}")])
-      });
+      if (newP) {
+        _db.collection(PRODUCTS).document(product.id).updateData({
+          'usersAdded': product.added
+              ? FieldValue.arrayUnion([
+                  {
+                    "userReference": _db.document("${CLIENTS}/${uid}"),
+                    "amount": 1
+                  }
+                ])
+              : FieldValue.arrayRemove([
+                  {
+                    "userReference": _db.document("${CLIENTS}/${uid}"),
+                    "amount": product.amount
+                  }
+                ])
+        });
+      } else {
+        _db.collection(PRODUCTS).document(product.id).updateData({
+          'usersAdded': plus
+              ? FieldValue.arrayRemove([
+                  {
+                    "userReference": _db.document("${CLIENTS}/${uid}"),
+                    "amount": product.amount - 1
+                  }
+                ])
+              : FieldValue.arrayRemove([
+                  {
+                    "userReference": _db.document("${CLIENTS}/${uid}"),
+                    "amount": product.amount + 1
+                  }
+                ])
+        });
+        _db.collection(PRODUCTS).document(product.id).updateData({
+          'usersAdded': product.added
+              ? FieldValue.arrayUnion([
+                  {
+                    "userReference": _db.document("${CLIENTS}/${uid}"),
+                    "amount": product.amount
+                  }
+                ])
+              : FieldValue.arrayRemove([
+                  {
+                    "userReference": _db.document("${CLIENTS}/${uid}"),
+                    "amount": product.amount
+                  }
+                ])
+        });
+      }
     });
   }
 
@@ -148,11 +193,29 @@ class CloudFirestoreAPI {
         'shoppingCart': product.added
             ? FieldValue.arrayUnion([_db.document("${PRODUCTS}/${product.id}")])
             : FieldValue.arrayRemove(
-            [_db.document("${PRODUCTS}/${product.id}")])
+                [_db.document("${PRODUCTS}/${product.id}")])
       });
     });
   }
 
-
-
+  Future clearShoppingCart(String uid, List<Product> products) async {
+    print("clearShoppingCart");
+    products?.forEach((product) async {
+      print(product.name+": "+product.amount.toString());
+      await _db
+          .collection(PRODUCTS)
+          .document(product.id)
+          .get()
+          .then((DocumentSnapshot ds) {
+        _db.collection(PRODUCTS).document(product.id).updateData({
+          'usersAdded': FieldValue.arrayRemove([
+            {
+              "userReference": _db.document("${CLIENTS}/${uid}"),
+              "amount": product.amount
+            }
+          ])
+        });
+      });
+    });
+  }
 }
